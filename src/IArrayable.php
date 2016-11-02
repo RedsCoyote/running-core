@@ -13,8 +13,8 @@ interface IArrayable
 
     public function fromArray(/* iterable */ $data);
 
-    public function toArray() : array;
+    public function toArray(): array;
 
-    public function toArrayRecursive() : array;
+    public function toArrayRecursive(): array;
 
 }

@@ -9,7 +9,7 @@ namespace Running\Core;
  * @package Running\Core
  */
 interface IObjectAsArray
-    extends \ArrayAccess, \Countable, \IteratorAggregate, IArrayable
+    extends \ArrayAccess, \Countable, \Iterator, IArrayable
 {
 
 }
