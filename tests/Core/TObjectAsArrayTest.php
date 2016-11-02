@@ -26,6 +26,17 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(IArrayable::class,      $obj);
     }
 
+    public function testGetData()
+    {
+        $obj = new testClass();
+        $obj[1] = 100;
+        $obj[2] = '200';
+        $obj['foo'] = 'bar';
+        $obj[] = 'baz';
+
+        $this->assertEquals([1=>100, 2=>'200', 'foo'=>'bar', 3=>'baz'], $obj->getData());
+    }
+
     public function testArrayAccess()
     {
         $obj = new testClass();
