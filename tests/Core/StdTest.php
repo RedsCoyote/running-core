@@ -2,8 +2,19 @@
 
 namespace Running\tests\Core\Std;
 
-
 use Running\Core\Std;
+
+class testClass extends Std {
+    protected function validateFoo($val) {
+        return $val>0;
+    }
+    protected function sanitizeBar($val) {
+        return trim($val);
+    }
+    protected function setBaz($val) {
+        $this->__data['baz'] = $val*2;
+    }
+}
 
 class StdTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,6 +48,38 @@ class StdTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(11, $obj2->foo);
         $this->assertEquals(21, $obj2->bar);
         $this->assertEquals(new Std(['foo' => 11, 'bar' => 21]), $obj2);
+    }
+
+    public function testSetter()
+    {
+        $obj = new testClass();
+        $obj->baz = 42;
+
+        $this->assertTrue(isset($obj->baz));
+        $this->assertEquals(84, $obj->baz);
+    }
+
+    public function testValidate()
+    {
+        $obj = new testClass();
+        $obj->foo = 42;
+
+        $this->assertTrue(isset($obj->foo));
+        $this->assertEquals(42, $obj->foo);
+
+        $obj = new testClass();
+        $obj->foo = -42;
+
+        $this->assertFalse(isset($obj->foo));
+    }
+
+    public function testSanitize()
+    {
+        $obj = new testClass();
+        $obj->bar = '  test    ';
+
+        $this->assertTrue(isset($obj->bar));
+        $this->assertEquals('test', $obj->bar);
     }
 
 }
