@@ -130,13 +130,11 @@ trait TObjectAsArray
      */
     public function fromArray(/* iterable */ $data)
     {
-        $data = (array)$data;
         foreach ($data as $key => $value) {
             if (is_null($value) || is_scalar($value) || $value instanceof \Closure) {
                 $this->innerSet($key, $value);
             } else {
-                $this->innerSet($key, new static);
-                $this->{$key}->fromArray($value);
+                $this->innerSet($key, (new static)->fromArray($value));
             }
         }
         return $this;

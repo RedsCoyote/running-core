@@ -12,6 +12,12 @@ class testClass
     use TObjectAsArray;
 }
 
+class testAnotherClass
+    implements IObjectAsArray
+{
+    use TObjectAsArray;
+}
+
 class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -88,6 +94,64 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals('foo=100;bar=200;300=baz;', $res);
+    }
+
+    public function testFromArray()
+    {
+        $obj = new testClass();
+        $obj->fromArray(['foo' => 100, 'bar' => 200, 'baz' => ['one' => 1, 'two' => 2]]);
+
+        $this->assertInstanceOf(testClass::class, $obj);
+        $this->assertInstanceOf(testClass::class, $obj['baz']);
+
+        $this->assertEquals(3, count($obj));
+
+        $this->assertEquals(100, $obj['foo']);
+        $this->assertEquals(200, $obj['bar']);
+
+        $this->assertEquals((new testClass())->fromArray(['one' => 1, 'two' => 2]), $obj['baz']);
+        $this->assertEquals(1, $obj['baz']['one']);
+        $this->assertEquals(2, $obj['baz']['two']);
+    }
+
+    public function testToArray()
+    {
+        $obj = new testClass();
+        $obj->fromArray(['foo' => 100, 'bar' => 200, 'baz' => ['one' => 1, 'two' => 2]]);
+        $arr = $obj->toArray();
+
+        $this->assertTrue(is_array($arr));
+        $this->assertEquals(
+            ['foo' => 100, 'bar' => 200, 'baz' => ['one' => 1, 'two' => 2]],
+            $arr
+        );
+
+        $obj = new testClass();
+        $obj['foo'] = 100;
+        $obj['bar'] = 200;
+        $obj['baz'] = (new testAnotherClass())->fromArray(['one' => 1, 'two' => 2]);
+        $arr = $obj->toArray();
+
+        $this->assertTrue(is_array($arr));
+        $this->assertEquals(
+            ['foo' => 100, 'bar' => 200, 'baz' => (new testAnotherClass())->fromArray(['one' => 1, 'two' => 2])],
+            $arr
+        );
+    }
+
+    public function testToArrayRecursive()
+    {
+        $obj = new testClass();
+        $obj['foo'] = 100;
+        $obj['bar'] = 200;
+        $obj['baz'] = (new testAnotherClass())->fromArray(['one' => 1, 'two' => 2]);
+        $arr = $obj->toArrayRecursive();
+
+        $this->assertTrue(is_array($arr));
+        $this->assertEquals(
+            ['foo' => 100, 'bar' => 200, 'baz' => ['one' => 1, 'two' => 2]],
+            $arr
+        );
     }
 
 }
