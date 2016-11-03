@@ -6,11 +6,11 @@ namespace Running\Core;
  * Trait TObjectAsArray
  * @package Running\Core
  *
- * @implements \Running\Core\IObjectAsArray
  * @implements \ArrayAccess
  * @implements \Countable
  * @implements \Iterator
  * @implements \Running\Core\IArrayable
+ * @implements \Running\Core\IObjectAsArray
  */
 trait TObjectAsArray
  // implements IObjectAsArray

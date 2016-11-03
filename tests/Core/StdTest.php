@@ -2,6 +2,9 @@
 
 namespace Running\tests\Core\Std;
 
+use Running\Core\IHasMagicGetSet;
+use Running\Core\IHasSanitize;
+use Running\Core\IHasValidation;
 use Running\Core\Std;
 
 class testClass extends Std {
@@ -22,6 +25,10 @@ class StdTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $obj = new Std(['foo' => 42, 'bar' => 'bla-bla', 'baz' => [1, 2, 3]]);
+
+        $this->assertInstanceOf(IHasMagicGetSet::class, $obj);
+        $this->assertInstanceOf(IHasSanitize::class, $obj);
+        $this->assertInstanceOf(IHasValidation::class, $obj);
 
         $this->assertCount(3, $obj);
         $this->assertEquals(42, $obj->foo);

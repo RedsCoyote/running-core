@@ -2,7 +2,20 @@
 
 namespace Running\Core;
 
+/**
+ * Class TStdGetSet
+ * @package Running\Core
+ *
+ * @implements \ArrayAccess
+ * @implements \Countable
+ * @implements \Iterator
+ * @implements \Running\Core\IArrayable
+ * @implements \Running\Core\IObjectAsArray
+ *
+ * @implements \Running\Core\IHasMagicGetSet
+ */
 trait TStdGetSet
+    // implements IHasMagicGetSet
 {
     use TObjectAsArray;
 

@@ -9,10 +9,10 @@ namespace Running\Core;
  * @package Running\Core
  */
 class Std
-    implements IObjectAsArray, IHasValidation, IHasSanitize
+    implements IObjectAsArray, IHasMagicGetSet, IHasValidation, IHasSanitize
 {
     use
-        TStdGetSet;
+        TStdGetSetWValidateSanitize;
 
     /**
      * Std constructor.
@@ -22,39 +22,6 @@ class Std
     {
         if (null !== $data) {
             $this->fromArray($data);
-        }
-    }
-
-    /**
-     * Reload this method for validation and sanitizing
-     * @param string $key
-     * @param mixed $val
-     */
-    protected function innerSet($key, $val)
-    {
-        $setMethod = 'set' . ucfirst($key);
-        if (method_exists($this, $setMethod)) {
-            $this->$setMethod($val);
-        } else {
-
-            $validateMethod = 'validate' . ucfirst($key);
-            if (method_exists($this, $validateMethod)) {
-                $validateResult = $this->$validateMethod($val);
-                if (false === $validateResult) {
-                    return;
-                }
-            }
-
-            $sanitizeMethod = 'sanitize' . ucfirst($key);
-            if (method_exists($this, $sanitizeMethod)) {
-                $val = $this->$sanitizeMethod($val);
-            }
-
-            if ('' == $key) {
-                $this->__data[] = $val;
-            } else {
-                $this->__data[$key] = $val;
-            }
         }
     }
 

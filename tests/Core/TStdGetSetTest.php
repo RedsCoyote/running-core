@@ -2,11 +2,12 @@
 
 namespace Running\tests\Core\TStdGetSet;
 
+use Running\Core\IHasMagicGetSet;
 use Running\Core\IObjectAsArray;
 use Running\Core\TStdGetSet;
 
 class testClass
-    implements IObjectAsArray
+    implements IObjectAsArray, IHasMagicGetSet
 {
     use TStdGetSet;
 }
@@ -20,6 +21,8 @@ class TStdGetSetTest extends \PHPUnit_Framework_TestCase
         $obj->foo = 42;
         $obj->bar = 'bla-bla';
         $obj->baz = [1, 2, 3];
+
+        $this->assertInstanceOf(IHasMagicGetSet::class, $obj);
 
         $this->assertCount(3, $obj);
 
