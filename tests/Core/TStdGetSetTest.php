@@ -47,6 +47,13 @@ class TStdGetSetTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(isset($obj['baz']));
     }
 
+    public function testDataKey()
+    {
+        $obj = new testClass;
+        $obj->data = 42;
+        $this->assertEquals(42, $obj->data);
+    }
+
     public function testChain()
     {
         $obj = new testClass();

@@ -85,6 +85,13 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($obj[3]));
     }
 
+    public function testDataKey()
+    {
+        $obj = new testClass;
+        $obj['data'] = 42;
+        $this->assertEquals(42, $obj['data']);
+    }
+
     public function testCountable()
     {
         $obj = new testClass();
