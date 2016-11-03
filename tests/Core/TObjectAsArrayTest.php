@@ -18,6 +18,26 @@ class testAnotherClass
     use TObjectAsArray;
 }
 
+class testWithGetterClass
+    implements IObjectAsArray
+{
+    use TObjectAsArray;
+    protected function getFoo()
+    {
+        return 42;
+    }
+}
+
+class testWithSetterClass
+    implements IObjectAsArray
+{
+    use TObjectAsArray;
+    protected function setFoo($val)
+    {
+        $this->__data['foo'] = $val*2;
+    }
+}
+
 class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -152,6 +172,26 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
             ['foo' => 100, 'bar' => 200, 'baz' => ['one' => 1, 'two' => 2]],
             $arr
         );
+    }
+
+    public function testGetter()
+    {
+        $obj = new testWithGetterClass();
+        $obj[1] = 100;
+        $obj['foo'] = 200;
+
+        $this->assertEquals(100, $obj[1]);
+        $this->assertEquals(42,  $obj['foo']);
+    }
+
+    public function testSetter()
+    {
+        $obj = new testWithSetterClass();
+        $obj[1] = 100;
+        $obj['foo'] = 200;
+
+        $this->assertEquals(100, $obj[1]);
+        $this->assertEquals(400,  $obj['foo']);
     }
 
 }
