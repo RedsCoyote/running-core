@@ -14,6 +14,10 @@ class Std
     use
         TStdGetSet;
 
+    /**
+     * Std constructor.
+     * @param iterable|null $data
+     */
     public function __construct(/* iterable */ $data = null)
     {
         if (null !== $data) {
