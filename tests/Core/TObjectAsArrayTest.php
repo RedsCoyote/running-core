@@ -201,4 +201,21 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(400,  $obj['foo']);
     }
 
+    public function testSerialize()
+    {
+        $obj = new testClass();
+        $obj->fromArray([1=>100, 2=>200, 'foo'=>'bar']);
+
+        $this->assertContains('{a:3:{i:1;i:100;i:2;i:200;s:3:"foo";s:3:"bar";}', serialize($obj));
+        $this->assertEquals($obj, unserialize(serialize($obj)));
+    }
+
+    public function testJsonSerialize()
+    {
+        $obj = new testClass();
+        $obj->fromArray([1=>100, 2=>200, 'foo'=>'bar']);
+
+        $this->assertEquals('{"1":100,"2":200,"foo":"bar"}', json_encode($obj));
+    }
+
 }

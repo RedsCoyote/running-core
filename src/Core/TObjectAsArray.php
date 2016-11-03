@@ -10,6 +10,8 @@ namespace Running\Core;
  * @implements \Countable
  * @implements \Iterator
  * @implements \Running\Core\IArrayable
+ * @implements \Serializable
+ * @implements \JsonSerializable
  * @implements \Running\Core\IObjectAsArray
  */
 trait TObjectAsArray
@@ -171,6 +173,38 @@ trait TObjectAsArray
             }
         }
         return $data;
+    }
+
+    /**
+     * \Serializable implementation
+     */
+
+    /**
+     * @return string
+     */
+    public function serialize()
+    {
+        return serialize($this->__data);
+    }
+
+    /**
+     * @param string $serialized
+     */
+    public function unserialize($serialized)
+    {
+        $this->__data = unserialize($serialized);
+    }
+
+    /**
+     * \JsonSerializable implementation
+     */
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize ()
+    {
+        return $this->__data;
     }
 
 }

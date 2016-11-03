@@ -4,6 +4,7 @@ namespace Running\Core;
 
 /**
  * Interface for classes have "magic" get- set- methods
+ *
  * Interface IHasMagicGetSet
  * @package Running\Core
  */

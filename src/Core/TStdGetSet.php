@@ -10,6 +10,8 @@ namespace Running\Core;
  * @implements \Countable
  * @implements \Iterator
  * @implements \Running\Core\IArrayable
+ * @implements \Serializable
+ * @implements \JsonSerializable
  * @implements \Running\Core\IObjectAsArray
  *
  * @implements \Running\Core\IHasMagicGetSet
