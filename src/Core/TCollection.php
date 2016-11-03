@@ -3,7 +3,7 @@
 namespace Running\Core;
 
 /**
- * Class TCollection
+ * Trait TCollection
  * @package Running\Core
  *
  * @implements \Running\Core\IObjectAsArray
