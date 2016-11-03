@@ -1,6 +1,6 @@
 <?php
 
-namespace Running\tests\Core;
+namespace Running\tests\Core\TObjectAsArray;
 
 use Running\Core\IArrayable;
 use Running\Core\IObjectAsArray;
@@ -89,16 +89,16 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
     {
         $obj = new testClass();
 
-        $this->assertEquals(0, count($obj));
+        $this->assertCount(0, $obj);
 
         $obj[] = 'foo';
         $obj[] = 'bar';
 
-        $this->assertEquals(2, count($obj));
+        $this->assertCount(2, $obj);
 
         unset($obj[0]);
 
-        $this->assertEquals(1, count($obj));
+        $this->assertCount(1, $obj);
     }
 
     public function testIterator()
@@ -124,7 +124,7 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(testClass::class, $obj);
         $this->assertInstanceOf(testClass::class, $obj['baz']);
 
-        $this->assertEquals(3, count($obj));
+        $this->assertCount(3, $obj);
 
         $this->assertEquals(100, $obj['foo']);
         $this->assertEquals(200, $obj['bar']);
