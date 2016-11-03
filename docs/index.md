@@ -1,6 +1,6 @@
 ---
 title: Running Core Documentation
-layout: post
+layout: slate
 ---
 
 Running Core Documentation

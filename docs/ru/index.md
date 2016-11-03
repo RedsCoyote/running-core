@@ -1,6 +1,6 @@
 ---
 title: Документация по библиотеке Running Core
-layout: post
+layout: slate
 ---
 
 Документация по библиотеке Running Core
