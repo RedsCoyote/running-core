@@ -60,15 +60,18 @@ trait TCollection
         if ($values instanceof IArrayable) {
             $values = $values->toArray();
         }
-        foreach ($values as $key => $value) {
-            $this[$key] = $value;
+        $vals = [];
+        /** iterable values iteration (for \Traversable by example) */
+        foreach ($values as $value) {
+            $vals[] = $value;
         }
+        $this->__data = array_merge($this->__data, $vals);
         return $this;
     }
 
     public function slice(int $offset, int $length = null)
     {
-        return new static(array_slice($this->storage, $offset, $length));
+        return new static(array_slice($this->__data, $offset, $length));
     }
 
     public function first()
@@ -83,8 +86,9 @@ trait TCollection
 
     public function existsElement(array $attributes)
     {
-        if (empty($attributes))
+        if (empty($attributes)) {
             return false;
+        }
         foreach ($this as $element) {
             $elementAttributes = [];
             if (!is_array($element) && !(is_object($element) && $element instanceof \Traversable)) {
