@@ -133,4 +133,40 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($collection->existsElement(['title' =>  'foo', 'text' => 'FooFooFoo']));
         $this->assertFalse($collection->existsElement(['title' =>  'foo', 'text' => 'BarBarBar']));
     }
+
+    public function testSort()
+    {
+        $collection = new testClass([10 => 1, 30 => 3, 20 => 2, 'a' => -1, 'b' => 0, 'c' => 42, 1 => '1', '111', '11']);
+
+        $result = $collection->asort();
+
+        $expected = new testClass(['a' => -1, 'b' => 0, 1 => '1', 10 => 1, 20 => 2, 30 => 3, 32 => '11', 'c' => 42, 31 => '111']);
+        $this->assertEquals($expected->toArray(), $result->toArray());
+
+        $result = $collection->ksort();
+
+        $expected = new testClass(['a' => -1, 'b' => 0, 'c' => 42, 1 => '1', 10 => 1, 20 => 2, 30 => 3, 31 => '111', 32 => '11']);
+        $this->assertEquals($expected->toArray(), $result->toArray());
+
+        $result = $collection->uasort(function ($a, $b) { return $a < $b ? 1 : ($a > $b ? -1 : 0);});
+
+        $expected = new testClass([31 => '111', 'c' => 42, 32 => '11', 30 => 3, 20 => 2, 10 => 1, 1 => '1', 'b' => 0, 'a' => -1]);
+        $this->assertEquals($expected->toArray(), $result->toArray());
+
+        $result = $collection->uksort(function ($a, $b) { return $a < $b ? 1 : ($a > $b ? -1 : 0);});
+
+        $expected = new testClass([32 => '11', 31 => '111', 30 => 3, 20 => 2, 10 => 1, 1 => '1', 'c' => 42, 'b' => 0, 'a' => -1]);
+        $this->assertEquals($expected->toArray(), $result->toArray());
+
+        $collection = new testClass([0 => '12', 1 => '10', 2 => '2', 3 => '1']);
+        $result = $collection->natsort();
+        $expected = new testClass([3 => '1', 2 => '2', 1 => '10', 0 => '12']);
+        $this->assertEquals($expected->toArray(), $result->toArray());
+
+        $collection = new testClass([0 => 'IMG0.png', 1 => 'img12.png', 2 => 'img10.png', 3 => 'img2.png', 4 => 'img1.png', 5 => 'IMG3.png']);
+        $result = $collection->natcasesort();
+        $expected = new testClass([0 => 'IMG0.png', 4 => 'img1.png', 3 => 'img2.png',  5 => 'IMG3.png', 2 => 'img10.png', 1 => 'img12.png']);
+        $this->assertEquals($expected->toArray(), $result->toArray());
+    }
+
 }
