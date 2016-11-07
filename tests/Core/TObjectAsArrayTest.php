@@ -63,6 +63,16 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1=>100, 2=>'200', 'foo'=>'bar', 3=>'baz'], $obj->getData());
     }
 
+    public function testIsEmpty()
+    {
+        $obj = new testClass();
+        $this->assertTrue($obj->isEmpty());
+        $obj[0] = 1;
+        $this->assertFalse($obj->isEmpty());
+        unset($obj[0]);
+        $this->assertTrue($obj->isEmpty());
+    }
+
     public function testArrayAccess()
     {
         $obj = new testClass();

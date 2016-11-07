@@ -30,6 +30,14 @@ trait TObjectAsArray
         return $ret;
     }
 
+    /**
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return empty($this->__data);
+    }
+
     protected function innerIsSet($key)
     {
         return array_key_exists($key, $this->__data) || method_exists($this, 'get' . ucfirst($key));
