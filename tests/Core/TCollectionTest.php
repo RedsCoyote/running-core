@@ -191,6 +191,11 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
         $expected = new testClass([31 => '111', 'c' => 42, 32 => '11', 30 => 3, 20 => 2, 10 => 1, 1 => '1', 'b' => 0, 'a' => -1]);
         $this->assertEquals($expected->toArray(), $result->toArray());
 
+        $result = $collection->sort(function ($a, $b) { return -($a <=> $b);});
+
+        $expected = new testClass([31 => '111', 'c' => 42, 32 => '11', 30 => 3, 20 => 2, 10 => 1, 1 => '1', 'b' => 0, 'a' => -1]);
+        $this->assertEquals($expected->toArray(), $result->toArray());
+
         $result = $collection->uksort(function ($a, $b) { return $a < $b ? 1 : ($a > $b ? -1 : 0);});
 
         $expected = new testClass([32 => '11', 31 => '111', 30 => 3, 20 => 2, 10 => 1, 1 => '1', 'c' => 42, 'b' => 0, 'a' => -1]);
@@ -205,6 +210,67 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
         $result = $collection->natcasesort();
         $expected = new testClass([0 => 'IMG0.png', 4 => 'img1.png', 3 => 'img2.png',  5 => 'IMG3.png', 2 => 'img10.png', 1 => 'img12.png']);
         $this->assertEquals($expected->toArray(), $result->toArray());
+    }
+
+    public function testReverse()
+    {
+        $collection = new testClass([10 => 1, 30 => 3, 20 => 2, 'a' => -1, 'b' => 0, 'c' => 42, '111', '11']);
+        $result = $collection->reverse();
+
+        $expected = new testClass([32 => '11', 31 => '111', 'c' => 42, 'b' => 0, 'a' => -1, 20 => 2, 30 => 3, 10 => 1]);
+        $this->assertEquals($expected->toArray(), $result->toArray());
+    }
+
+    public function testMap()
+    {
+        $collection = new testClass([1, 2, 3]);
+        $result = $collection->map(function ($x) {return $x*2;});
+
+        $expected = new testClass([2, 4, 6]);
+        $this->assertEquals(array_values($expected->toArray()), array_values($result->toArray()));
+    }
+
+    public function testCollect()
+    {
+        $i1 = new \Running\Core\Std(['id' => 1, 'title' => 'foo']);
+        $i2 = new \Running\Core\Std(['id' => 2, 'title' => 'bar']);
+        $i3 = (object)['id' => 3, 'title' => 'baz'];
+
+        $collection = new testClass();
+        $collection->append($i1);
+        $collection->append($i2);
+        $collection->append($i3);
+
+        $this->assertEquals(
+            [
+                new \Running\Core\Std(['id' => 1, 'title' => 'foo']),
+                new \Running\Core\Std(['id' => 2, 'title' => 'bar']),
+                (object)['id' => 3, 'title' => 'baz']
+            ],
+            $collection->toArray()
+        );
+
+        $ids = $collection->collect('id');
+        $this->assertEquals([1, 2, 3], $ids);
+
+        $titles = $collection->collect(function ($x) {
+            return $x->title;
+        });
+        $this->assertEquals(['foo', 'bar', 'baz'], $titles);
+
+        $collection = new testClass([
+            ['id' => 1, 'title' => 'foo'],
+            ['id' => 2, 'title' => 'bar'],
+            ['id' => 3, 'title' => 'baz'],
+        ]);
+
+        $ids = $collection->collect('id');
+        $this->assertEquals([1, 2, 3], $ids);
+
+        $titles = $collection->collect(function ($x) {
+            return $x['title'];
+        });
+        $this->assertEquals(['foo', 'bar', 'baz'], $titles);
     }
 
 }

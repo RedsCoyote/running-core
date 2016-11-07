@@ -256,7 +256,7 @@ trait TCollection
         foreach ($this as $element) {
             if ($what instanceof \Closure) {
                 $ret[] = $what($element);
-            } elseif (is_array($element)) {
+            } elseif (is_array($element) || ($element instanceof IObjectAsArray)) {
                 $ret[] = $element[$what];
             } elseif (is_object($element)) {
                 $ret[] = $element->$what;
