@@ -3,6 +3,7 @@
 namespace Running\tests\Core\TCollection;
 
 use Running\Core\ICollection;
+use Running\Core\IObjectAsArray;
 use Running\Core\TCollection;
 
 class testClass
@@ -10,6 +11,20 @@ class testClass
 {
     use TCollection;
 }
+
+class Number
+{
+    protected $data;
+    public function __construct($x)
+    {
+        $this->data = $x;
+    }
+    public function increment()
+    {
+        $this->data++;
+    }
+}
+
 
 class TCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -230,6 +245,24 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array_values($expected->toArray()), array_values($result->toArray()));
     }
 
+    public function testFilter()
+    {
+        $collection = new testClass([1, -1, 0, 2, 3, -5]);
+        $result = $collection->filter(function ($x) {return $x>0;});
+
+        $expected = new testClass([1, 2, 3]);
+        $this->assertEquals($expected->toArray(), $result->toArray());
+    }
+
+    public function testReduce()
+    {
+        $collection = new testClass([1, 2, 3, 4]);
+        $reduced = $collection->reduce(0, function($carry, $item) {
+            return $carry + $item;
+        });
+        $this->assertEquals(10, $reduced);
+    }
+
     public function testCollect()
     {
         $i1 = new \Running\Core\Std(['id' => 1, 'title' => 'foo']);
@@ -271,6 +304,46 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
             return $x['title'];
         });
         $this->assertEquals(['foo', 'bar', 'baz'], $titles);
+    }
+
+    public function testGroup()
+    {
+        $collection = new testClass([
+            ['date' => '2000-01-01', 'title' => 'First'],
+            ['date' => '2000-01-01', 'title' => 'Second'],
+            ['date' => '2000-01-02', 'title' => 'Third'],
+            (object)['date' => '2000-01-04', 'title' => 'Fourth'],
+        ]);
+
+        $grouped = $collection->group('date');
+        $this->assertEquals([
+            '2000-01-01' => new testClass([['date' => '2000-01-01', 'title' => 'First'], ['date' => '2000-01-01', 'title' => 'Second']]),
+            '2000-01-02' => new testClass([['date' => '2000-01-02', 'title' => 'Third']]),
+            '2000-01-04' => new testClass([(object)['date' => '2000-01-04', 'title' => 'Fourth']]),
+        ], $grouped);
+
+        $grouped = $collection->group(function ($x) {return date('m-d', strtotime($x instanceof IObjectAsArray ? $x['date'] : $x->date));});
+        $this->assertEquals([
+            '01-01' => new testClass([['date' => '2000-01-01', 'title' => 'First'], ['date' => '2000-01-01', 'title' => 'Second']]),
+            '01-02' => new testClass([['date' => '2000-01-02', 'title' => 'Third']]),
+            '01-04' => new testClass([(object)['date' => '2000-01-04', 'title' => 'Fourth']]),
+        ], $grouped);
+    }
+
+    public function testCall()
+    {
+        $collection = new testClass();
+        $collection->append(new Number(1));
+        $collection->append(new Number(2));
+        $collection->append(new Number(3));
+
+        $collectionExpected = new testClass();
+        $collectionExpected->append(new Number(2));
+        $collectionExpected->append(new Number(3));
+        $collectionExpected->append(new Number(4));
+
+        $collection->increment();
+        $this->assertEquals($collectionExpected, $collection);
     }
 
 }

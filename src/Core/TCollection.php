@@ -275,7 +275,7 @@ trait TCollection
         foreach ($this as $element) {
             if ($by instanceof \Closure) {
                 $key = $by($element);
-            } elseif (is_array($element)) {
+            } elseif (is_array($element) || ($element instanceof IObjectAsArray)) {
                 $key = $element[$by];
             } elseif (is_object($element)) {
                 $key = $element->$by;
