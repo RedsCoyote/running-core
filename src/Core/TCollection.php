@@ -15,6 +15,22 @@ trait TCollection
 {
     use TObjectAsArray;
 
+    /**
+     * @param iterable $data
+     * @return $this
+     */
+    public function fromArray(/* iterable */ $data)
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $this->innerSet($key, (new static)->fromArray($value));
+            } else {
+                $this->innerSet($key, $value);
+            }
+        }
+        return $this;
+    }
+
     public function __construct(/* iterable */$data = null)
     {
         if (null !== $data) {
@@ -107,6 +123,9 @@ trait TCollection
     public function findAllByAttributes(array $attributes)
     {
         return $this->filter(function ($x) use ($attributes) {
+            if (!is_array($x) && !(is_object($x) && $x instanceof \Traversable)) {
+                return false;
+            }
             $elementAttributes = [];
             foreach ($x as $key => $value) {
                 if (array_key_exists($key, $attributes)) {
@@ -119,8 +138,8 @@ trait TCollection
 
     public function findByAttributes(array $attributes)
     {
-        $allCollection = $this->findAllByAttributes($attributes);
-        return $allCollection->isEmpty() ? null : $allCollection[0];
+        $all = $this->findAllByAttributes($attributes);
+        return $all->isEmpty() ? null : $all[0];
     }
 
     /**

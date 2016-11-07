@@ -16,17 +16,22 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $collection = new testClass([100, 200, 300]);
+        $collection = new testClass([100, 200, 300, [400, 500]]);
 
         $this->assertInstanceOf(ICollection::class, $collection);
-        $this->assertCount(3, $collection);
+        $this->assertCount(4, $collection);
         $this->assertEquals(
-            [100, 200, 300],
+            [100, 200, 300, new testClass([400, 500])],
+            $collection->getData()
+        );
+        $this->assertEquals(
+            [100, 200, 300, [400, 500]],
             $collection->toArray()
         );
         $this->assertEquals(100, $collection[0]);
         $this->assertEquals(200, $collection[1]);
         $this->assertEquals(300, $collection[2]);
+        $this->assertEquals(new testClass([400, 500]), $collection[3]);
     }
 
     public function testAppendPrependAdd()
@@ -132,6 +137,39 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($collection->existsElement(['title' =>  'foo']));
         $this->assertTrue($collection->existsElement(['title' =>  'foo', 'text' => 'FooFooFoo']));
         $this->assertFalse($collection->existsElement(['title' =>  'foo', 'text' => 'BarBarBar']));
+    }
+
+    public function testFindAllByAttibutes()
+    {
+        $collection = new testClass();
+        $el1 = new \Running\Core\Std(['id' => 1, 'title' => 'foo', 'text' => 'FooFooFoo']);
+        $collection->append($el1);
+        $el2 = new \Running\Core\Std(['id' => 2, 'title' => 'foo', 'text' => 'AnotherFoo']);
+        $collection->append($el2);
+        $collection->append(42);
+
+        $this->assertEquals(
+            new testClass([
+                new \Running\Core\Std(['id' => 1, 'title' => 'foo', 'text' => 'FooFooFoo']),
+                new \Running\Core\Std(['id' => 2, 'title' => 'foo', 'text' => 'AnotherFoo'])
+            ]),
+            $collection->findAllByAttributes(['title' => 'foo'])
+        );
+    }
+
+    public function testFindByAttibutes()
+    {
+        $collection = new testClass();
+        $el1 = new \Running\Core\Std(['id' => 1, 'title' => 'foo', 'text' => 'FooFooFoo']);
+        $collection->append($el1);
+        $el2 = new \Running\Core\Std(['id' => 2, 'title' => 'foo', 'text' => 'AnotherFoo']);
+        $collection->append($el2);
+        $collection->append(42);
+
+        $this->assertEquals(
+            new \Running\Core\Std(['id' => 1, 'title' => 'foo', 'text' => 'FooFooFoo']),
+            $collection->findByAttributes(['title' => 'foo'])
+        );
     }
 
     public function testSort()
