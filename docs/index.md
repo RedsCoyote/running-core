@@ -1,9 +1,9 @@
 ---
-title: Running Core Documentation
+title: Running.FM Core Library Documentation
 layout: slate
 ---
 
-Running Core Documentation
-==========================
+Running.FM Core Library Documentation
+=====================================
 
 This directory contains library documentation.
