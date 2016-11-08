@@ -1,0 +1,29 @@
+{
+  "name": "pr-of-it/running-core",
+  "description": "Running.FM Core Library",
+  "keywords": ["running", "running.fm", "framework", "std", "collection", "multiexception"],
+  "type": "library",
+  "license": "LGPL v.3",
+  "authors": [
+    {
+      "name": "Albert Stepantsev"
+    },
+    {
+      "name": "Maxim Fedorov",
+      "email": "scorp7mix@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Running\\": "src/"
+    }
+  }
+}
