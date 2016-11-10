@@ -129,7 +129,7 @@ class MultiExceptionTest extends \PHPUnit_Framework_TestCase
                 throw $errors;
             }
 
-            $this->assertTrue(false);
+            $this->fail();
 
         } catch (MultiException $ex) {
 

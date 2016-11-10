@@ -7,6 +7,8 @@ namespace Running\Core;
  *
  * Interface IHasSanitize
  * @package Running\Core
+ *
+ * @codeCoverageIgnore
  */
 interface IHasSanitize
 {

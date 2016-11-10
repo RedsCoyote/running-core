@@ -7,6 +7,8 @@ namespace Running\Core;
  *
  * Interface IArrayAccess
  * @package Running\Core
+ *
+ * @codeCoverageIgnore
  */
 interface IObjectAsArray
     extends \ArrayAccess, \Countable, \Iterator, IArrayable, \Serializable, \JsonSerializable

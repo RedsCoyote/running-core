@@ -7,6 +7,8 @@ namespace Running\Core;
  *
  * Interface ICollection
  * @package Running\Core
+ *
+ * @codeCoverageIgnore
  */
 interface ICollection
     extends IObjectAsArray

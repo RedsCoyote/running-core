@@ -7,6 +7,8 @@ namespace Running\Core;
  *
  * Interface IArrayable
  * @package Running\Core
+ *
+ * @codeCoverageIgnore
  */
 interface IArrayable
 {

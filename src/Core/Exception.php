@@ -7,6 +7,8 @@ namespace Running\Core;
  *
  * Class Exception
  * @package Running\Core
+ *
+ * @codeCoverageIgnore
  */
 class Exception
     extends \Exception

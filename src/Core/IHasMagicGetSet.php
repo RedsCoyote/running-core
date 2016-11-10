@@ -7,6 +7,8 @@ namespace Running\Core;
  *
  * Interface IHasMagicGetSet
  * @package Running\Core
+ *
+ * @codeCoverageIgnore
  */
 interface IHasMagicGetSet
 {

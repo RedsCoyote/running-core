@@ -7,6 +7,8 @@ namespace Running\Core;
  *
  * Interface IHasValidation
  * @package Running\Core
+ *
+ * @codeCoverageIgnore
  */
 interface IHasValidation
 {
