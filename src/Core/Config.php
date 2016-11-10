@@ -87,4 +87,22 @@ class Config
         return $this;
     }
 
+    protected function innerSet($key, $val)
+    {
+        if ('file' == $key) {
+            $this->__data['file'] = $val;
+        } else {
+            parent::innerSet($key, $val);
+        }
+    }
+
+    protected function innerGet($key)
+    {
+        if ('file' == $key) {
+            return $this->__data['file'];
+        } else {
+            return parent::innerGet($key);
+        }
+    }
+
 }

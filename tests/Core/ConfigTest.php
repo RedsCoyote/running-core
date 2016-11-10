@@ -63,6 +63,24 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($file, $obj->getFile());
     }
 
+    public function testMagicFile()
+    {
+        $obj = new Config();
+
+        $this->assertNull($obj->file);
+        $this->assertNull($obj->getFile());
+
+        $obj->file = 'test.txt';
+
+        $this->assertEquals('test.txt', $obj->file);
+        $this->assertNull($obj->getFile());
+
+        $obj->setFile(new File('example.php'));
+
+        $this->assertEquals('test.txt', $obj->file);
+        $this->assertEquals(new File('example.php'), $obj->getFile());
+    }
+
     /**
      * @expectedException \Running\Core\Exception
      */
