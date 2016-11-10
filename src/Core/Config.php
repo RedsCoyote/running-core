@@ -81,8 +81,10 @@ class Config
     public function save()
     {
         $str = preg_replace(['~^(\s*)array\s*\($~im', '~^(\s*)\)(\,?)$~im', '~\s+$~im'], ['$1[', '$1]$2', ''], var_export($this->toArray(), true));
-        $this->__file->setContents('<?php' . PHP_EOL . PHP_EOL . 'return ' . $str . ';');
-        $this->__file->save();
+        $this->__file
+            ->setContents('<?php' . PHP_EOL . PHP_EOL . 'return ' . $str . ';')
+            ->save();
         return $this;
     }
+
 }
