@@ -28,6 +28,7 @@ trait TStdGetSetWValidateSanitize
      * Reload this method for validation and sanitizing
      * @param string $key
      * @param mixed $val
+     * @throws \Running\Core\MultiException
      */
     protected function innerSet($key, $val)
     {
