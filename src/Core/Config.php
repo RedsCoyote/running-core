@@ -27,25 +27,40 @@ class Config
     public function __construct(/* File | iterable */$arg = null)
     {
         if ( (is_object($arg) && ($arg instanceof File)) ) {
-            $this->load($arg);
+            $this->setFile($arg)->load();
         } else {
             parent::__construct($arg);
         }
     }
 
     /**
+     * @param \Running\Fs\File $file
+     * @return $this
+     */
+    public function setFile(File $file)
+    {
+        $this->__file = $file;
+        return $this;
+    }
+
+    /**
+     * @return \Running\Fs\File|null
+     */
+    public function getFile()/*: File? */
+    {
+        return $this->__file;
+    }
+
+    /**
      * Loads config from file
      *
-     * @param \Running\Fs\File $arg
      * @return $this
      * @throws \Running\Core\Exception
      * @throws \Running\Fs\Exception
      */
-    public function load(File $arg)
+    public function load()
     {
-        if (is_object($arg) && ($arg instanceof File)) {
-            $this->__file = $arg;
-        } else {
+        if (empty($this->__file)) {
             throw new Exception('Wrong config file!');
         }
         return $this->fromArray($this->__file->return());

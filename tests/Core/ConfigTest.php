@@ -49,6 +49,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Config([1, 2, 3]), $obj->baz);
     }
 
+    public function testSetGetFile()
+    {
+        $obj = new Config();
+
+        $this->assertNull($obj->getFile());
+
+        $file = new File(self::TMP_PATH . '/return.php');
+        $obj->setFile($file);
+
+        $this->assertEquals($file, $obj->getFile());
+    }
+
     /*
     public function testMerge()
     {
