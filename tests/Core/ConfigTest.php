@@ -3,6 +3,7 @@
 namespace Running\tests\Core\Config;
 
 use Running\Core\Config;
+use Running\Core\ICanStoreSelf;
 use Running\Core\IHasMagicGetSet;
 use Running\Core\IHasSanitize;
 use Running\Core\IHasValidation;
@@ -30,6 +31,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(IHasSanitize::class, $obj);
         $this->assertInstanceOf(IHasValidation::class, $obj);
         $this->assertInstanceOf(Std::class, $obj);
+        $this->assertInstanceOf(ICanStoreSelf::class, $obj);
         $this->assertInstanceOf(Config::class, $obj);
 
         $this->assertCount(3, $obj);
@@ -61,28 +63,40 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($file, $obj->getFile());
     }
 
-    /*
-    public function testMerge()
+    /**
+     * @expectedException \Running\Core\Exception
+     */
+    public function testLoadEmptyFile()
     {
-        $obj1 = new Std(['foo' => 1]);
-        $obj1->merge(['bar' => 2]);
-        $this->assertEquals(1, $obj1->foo);
-        $this->assertEquals(2, $obj1->bar);
-        $this->assertEquals(new Std(['foo' => 1, 'bar' => 2]), $obj1);
-
-        $obj2 = new Std(['foo' => 11]);
-        $obj2->merge(new Std(['bar' => 21]));
-        $this->assertEquals(11, $obj2->foo);
-        $this->assertEquals(21, $obj2->bar);
-        $this->assertEquals(new Std(['foo' => 11, 'bar' => 21]), $obj2);
-
-        $obj2 = new Std(['foo' => 11, 'bar' => 12]);
-        $obj2->merge(new Std(['bar' => 21]));
-        $this->assertEquals(11, $obj2->foo);
-        $this->assertEquals(21, $obj2->bar);
-        $this->assertEquals(new Std(['foo' => 11, 'bar' => 21]), $obj2);
+        $obj = new Config();
+        $obj->load();
+        $this->fail();
     }
-    */
+
+    public function testLoadReload()
+    {
+        $obj = new Config();
+        $file = new File(self::TMP_PATH . '/return.php');
+        $obj->setFile(new File(self::TMP_PATH . '/return.php'))->load();
+
+        $this->assertEquals($file, $obj->getFile());
+
+        $this->assertCount(3, $obj);
+        $this->assertEquals(42, $obj->foo);
+        $this->assertEquals('bla-bla', $obj->bar);
+        $this->assertEquals(new Config([1, 2, 3]), $obj->baz);
+
+        $obj->foo = null;
+        unset($obj->bar);
+        $obj->baz = 'nothing';
+
+        $obj->reload();
+
+        $this->assertCount(3, $obj);
+        $this->assertEquals(42, $obj->foo);
+        $this->assertEquals('bla-bla', $obj->bar);
+        $this->assertEquals(new Config([1, 2, 3]), $obj->baz);
+    }
 
     protected function tearDown()
     {

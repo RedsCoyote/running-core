@@ -12,6 +12,7 @@ use Running\Fs\File;
  */
 class Config
     extends Std
+    implements ICanStoreSelf
 {
 
     /**
@@ -66,4 +67,16 @@ class Config
         return $this->fromArray($this->__file->return());
     }
 
+    /**
+     * @return $this
+     */
+    public function reload()
+    {
+        return $this->load();
+    }
+
+    public function save()
+    {
+        // TODO: Implement save() method.
+    }
 }
