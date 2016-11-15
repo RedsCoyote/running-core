@@ -74,12 +74,13 @@ trait TCollection
     public function merge(/* iterable */$values)
     {
         if ($values instanceof IArrayable) {
-            $values = $values->toArray();
-        }
-        $vals = [];
-        /** iterable values iteration (for \Traversable by example) */
-        foreach ($values as $value) {
-            $vals[] = $value;
+            $vals = $values->toArray();
+        } else {
+            $vals = [];
+            /** iterable values iteration (for \Traversable by example) */
+            foreach ($values as $value) {
+                $vals[] = $value;
+            }
         }
         $this->__data = array_merge($this->__data, $vals);
         return $this;
