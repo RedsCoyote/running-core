@@ -99,7 +99,7 @@ class Config
     protected function innerGet($key)
     {
         if ('file' == $key) {
-            return $this->__data['file'];
+            return $this->__data['file'] ?? null;
         } else {
             return parent::innerGet($key);
         }
