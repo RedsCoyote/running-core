@@ -227,5 +227,14 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('{"1":100,"2":200,"foo":"bar"}', json_encode($obj));
     }
+    
+    public function testSiblingClasses()
+    {
+        $obj = new testClass();
+        $obj->fromArray(['foo' => new testAnotherClass()]);
+        
+        $this->assertInstanceOf(testClass::class, $obj);
+        $this->assertInstanceOf(testAnotherClass::class, $obj['foo']);
+    }
 
 }
