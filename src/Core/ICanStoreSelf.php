@@ -24,5 +24,6 @@ interface ICanStoreSelf
     public function isNew(): bool;
     public function wasNew(): bool;
     public function isChanged(): bool;
+    public function isDeleted(): bool;
 
 }
