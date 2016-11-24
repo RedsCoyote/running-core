@@ -13,8 +13,15 @@ namespace Running\Core;
 interface ICanStoreSelf
 {
 
+    public function set($value);
+    public function get();
+
     public function load();
     public function reload();
     public function save();
+
+    public function isNew(): bool;
+    public function wasNew(): bool;
+    public function isChanged(): bool;
 
 }
