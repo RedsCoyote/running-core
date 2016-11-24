@@ -19,6 +19,7 @@ interface ICanStoreSelf
     public function load();
     public function reload();
     public function save();
+    public function delete();
 
     public function isNew(): bool;
     public function wasNew(): bool;
