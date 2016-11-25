@@ -2,10 +2,8 @@
 
 namespace Running\Core;
 
-use Running\Fs\File;
-
 /**
- * File-based config
+ * Config class
  *
  * Class Config
  * @package Running\Core
@@ -16,55 +14,55 @@ class Config
 {
 
     /**
-     * @var \Running\Fs\File $__file;
+     * @var \Running\Core\ICanStoreSelf $__storage;
      */
-    protected $__file;
+    protected $__storage;
 
     /**
-     * @param \Running\Fs\File|iterable|null $arg
+     * @param \Running\Core\ICanStoreSelf|iterable|null $arg
      * @throws \Running\Fs\Exception
      * @property $path string
      */
-    public function __construct(/* File | iterable */$arg = null)
+    public function __construct(/* ICanStoreSelf | iterable */$arg = null)
     {
-        if ( (is_object($arg) && ($arg instanceof File)) ) {
-            $this->setFile($arg)->load();
+        if ( (is_object($arg) && ($arg instanceof ICanStoreSelf)) ) {
+            $this->setStorage($arg)->load();
         } else {
             parent::__construct($arg);
         }
     }
 
     /**
-     * @param \Running\Fs\File $file
+     * @param \Running\Core\ICanStoreSelf $storage
      * @return $this
      */
-    public function setFile(File $file)
+    public function setStorage(ICanStoreSelf $storage)
     {
-        $this->__file = $file;
+        $this->__storage = $storage;
         return $this;
     }
 
     /**
-     * @return \Running\Fs\File|null
+     * @return \Running\Core\ICanStoreSelf|null
      */
-    public function getFile()/*: File? */
+    public function getStorage()/*: ICanStoreSelf? */
     {
-        return $this->__file;
+        return $this->__storage;
     }
 
     /**
-     * Loads config from file
+     * Loads config from storage
      *
      * @return $this
      * @throws \Running\Core\Exception
-     * @throws \Running\Fs\Exception
      */
     public function load()
     {
-        if (empty($this->__file)) {
-            throw new Exception('Wrong config file!');
+        if (empty($this->__storage)) {
+            throw new Exception('Wrong config storage!');
         }
-        return $this->fromArray($this->__file->return());
+        $this->__storage->load();
+        return $this->fromArray($this->__storage->get());
     }
 
     /**
@@ -77,20 +75,22 @@ class Config
 
     /**
      * @return $this
+     * @throws \Running\Core\Exception
      */
     public function save()
     {
-        $str = preg_replace(['~^(\s*)array\s*\($~im', '~^(\s*)\)(\,?)$~im', '~\s+$~im'], ['$1[', '$1]$2', ''], var_export($this->toArray(), true));
-        $this->__file
-            ->setContents('<?php' . PHP_EOL . PHP_EOL . 'return ' . $str . ';')
-            ->save();
+        if (empty($this->__storage)) {
+            throw new Exception('Wrong config storage!');
+        }
+        $this->__storage->set($this->toArray());
+        $this->__storage->save();
         return $this;
     }
 
     protected function innerSet($key, $val)
     {
-        if ('file' == $key) {
-            $this->__data['file'] = $val;
+        if ('storage' == $key) {
+            $this->__data['storage'] = $val;
         } else {
             parent::innerSet($key, $val);
         }
@@ -98,11 +98,46 @@ class Config
 
     protected function innerGet($key)
     {
-        if ('file' == $key) {
-            return $this->__data['file'] ?? null;
+        if ('storage' == $key) {
+            return $this->__data['storage'] ?? null;
         } else {
             return parent::innerGet($key);
         }
+    }
+
+    public function set($value)
+    {
+        throw new \BadMethodCallException();
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->__storage->isDeleted();
+    }
+
+    public function get()
+    {
+        throw new \BadMethodCallException();
+    }
+
+    public function isNew(): bool
+    {
+        return $this->__storage->isNew();
+    }
+
+    public function wasNew(): bool
+    {
+        return $this->__storage->wasNew();
+    }
+
+    public function isChanged(): bool
+    {
+        return $this->__storage->isChanged();
+    }
+
+    public function delete()
+    {
+        return $this->__storage->delete();
     }
 
 }

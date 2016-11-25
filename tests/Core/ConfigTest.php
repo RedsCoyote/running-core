@@ -9,7 +9,7 @@ use Running\Core\IHasSanitize;
 use Running\Core\IHasValidation;
 use Running\Core\IObjectAsArray;
 use Running\Core\Std;
-use Running\Fs\File;
+use Running\Fs\PhpFile;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,7 +42,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructWFile()
     {
-        $obj = new Config(new File(self::TMP_PATH . '/return.php'));
+        $obj = new Config(new PhpFile(self::TMP_PATH . '/return.php'));
 
         $this->assertInstanceOf(Config::class, $obj);
         $this->assertCount(3, $obj);
@@ -55,30 +55,30 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $obj = new Config();
 
-        $this->assertNull($obj->getFile());
+        $this->assertNull($obj->getStorage());
 
-        $file = new File(self::TMP_PATH . '/return.php');
-        $obj->setFile($file);
+        $file = new PhpFile(self::TMP_PATH . '/return.php');
+        $obj->setStorage($file);
 
-        $this->assertEquals($file, $obj->getFile());
+        $this->assertEquals($file, $obj->getStorage());
     }
 
-    public function testMagicFile()
+    public function testMagicStorage()
     {
         $obj = new Config();
 
-        $this->assertNull($obj->file);
-        $this->assertNull($obj->getFile());
+        $this->assertNull($obj->storage);
+        $this->assertNull($obj->getStorage());
 
-        $obj->file = 'test.txt';
+        $obj->storage = 'test.txt';
 
-        $this->assertEquals('test.txt', $obj->file);
-        $this->assertNull($obj->getFile());
+        $this->assertEquals('test.txt', $obj->storage);
+        $this->assertNull($obj->getStorage());
 
-        $obj->setFile(new File('example.php'));
+        $obj->setStorage(new PhpFile('example.php'));
 
-        $this->assertEquals('test.txt', $obj->file);
-        $this->assertEquals(new File('example.php'), $obj->getFile());
+        $this->assertEquals('test.txt', $obj->storage);
+        $this->assertEquals(new PhpFile('example.php'), $obj->getStorage());
     }
 
     /**
@@ -94,10 +94,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testLoadReload()
     {
         $obj = new Config();
-        $file = new File(self::TMP_PATH . '/return.php');
-        $obj->setFile(new File(self::TMP_PATH . '/return.php'))->load();
+        $file = new PhpFile(self::TMP_PATH . '/return.php');
+        $file->load();
+        $obj->setStorage(new PhpFile(self::TMP_PATH . '/return.php'))->load();
 
-        $this->assertEquals($file, $obj->getFile());
+        $this->assertEquals($file, $obj->getStorage());
 
         $this->assertCount(3, $obj);
         $this->assertEquals(42, $obj->foo);

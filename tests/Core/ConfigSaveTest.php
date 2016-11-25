@@ -3,7 +3,7 @@
 namespace Running\tests\Core\Config;
 
 use Running\Core\Config;
-use Running\Fs\File;
+use Running\Fs\PhpFile;
 
 class ConfigSaveTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ CONFIG
 
     public function testSave()
     {
-        $config = new Config(new File(self::TMP_PATH . '/savetest.config.php'));
+        $config = new Config(new PhpFile(self::TMP_PATH . '/savetest.config.php'));
         $this->assertEquals('Test Application', $config->application->name);
 
         $config->foo = 'bar';
