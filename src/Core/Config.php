@@ -87,9 +87,14 @@ class Config
         return $this;
     }
 
+    public function delete()
+    {
+        return $this->__storage->delete();
+    }
+
     protected function innerSet($key, $val)
     {
-        if ('storage' == $key) {
+        if ('storage' === $key) {
             $this->__data['storage'] = $val;
         } else {
             parent::innerSet($key, $val);
@@ -98,7 +103,7 @@ class Config
 
     protected function innerGet($key)
     {
-        if ('storage' == $key) {
+        if ('storage' === $key) {
             return $this->__data['storage'] ?? null;
         } else {
             return parent::innerGet($key);
@@ -110,11 +115,6 @@ class Config
         throw new \BadMethodCallException();
     }
 
-    public function isDeleted(): bool
-    {
-        return $this->__storage->isDeleted();
-    }
-
     public function get()
     {
         throw new \BadMethodCallException();
@@ -122,22 +122,27 @@ class Config
 
     public function isNew(): bool
     {
-        return $this->__storage->isNew();
+        return $this->__storage ? $this->__storage->isNew() : true;
     }
 
     public function wasNew(): bool
     {
-        return $this->__storage->wasNew();
+        return $this->__storage ? $this->__storage->wasNew() : true;
     }
 
     public function isChanged(): bool
     {
-        return $this->__storage->isChanged();
+        if (!empty($this->__storage && !empty($this->__data))) {
+            return $this->__storage->get() != $this->toArray();
+        } elseif (!empty($this->__storage)) {
+            return $this->__storage->isChanged();
+        }
+        return false;
     }
 
-    public function delete()
+    public function isDeleted(): bool
     {
-        return $this->__storage->delete();
+        return $this->__storage ? $this->__storage->isDeleted() : false;
     }
 
 }

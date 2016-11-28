@@ -25,14 +25,47 @@ CONFIG
         );
     }
 
+    /**
+     * @expectedException \Running\Core\Exception
+     * @expectedExceptionMessage Wrong config storage!
+     */
+    public function testEmptyStorageSave()
+    {
+        $config = new Config();
+        $config->foo = 'bar';
+        $config->save();
+        $this->fail();
+    }
+
+    public function testStorageAfterConstruct()
+    {
+        $config = new Config();
+        $config->setStorage(new PhpFile(self::TMP_PATH . '/savetest.config.php'));
+
+        $this->assertFalse($config->isNew());
+        $this->assertFalse($config->wasNew());
+        $this->assertFalse($config->isChanged());
+        $this->assertFalse($config->isDeleted());
+    }
+
     public function testSave()
     {
         $config = new Config(new PhpFile(self::TMP_PATH . '/savetest.config.php'));
         $this->assertEquals('Test Application', $config->application->name);
 
+        $this->assertFalse($config->isNew());
+        $this->assertFalse($config->wasNew());
+        $this->assertFalse($config->isChanged());
+        $this->assertFalse($config->isDeleted());
+
         $config->foo = 'bar';
         $config->baz = [1, 2, 3];
         $config->songs = ['Hey' => 'Jude', 'I just' => ['call' => ['to' => 'say']]];
+
+        $this->assertFalse($config->isNew());
+        $this->assertFalse($config->wasNew());
+        $this->assertTrue($config->isChanged());
+        $this->assertFalse($config->isDeleted());
 
         $config->save();
 

@@ -34,6 +34,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(IStorage::class, $obj);
         $this->assertInstanceOf(Config::class, $obj);
 
+        $this->assertTrue($obj->isNew());
+        $this->assertTrue($obj->wasNew());
+        $this->assertFalse($obj->isChanged());
+        $this->assertFalse($obj->isDeleted());
+
         $this->assertCount(3, $obj);
         $this->assertEquals(42, $obj->foo);
         $this->assertEquals('bla-bla', $obj->bar);
@@ -43,6 +48,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testConstructWFile()
     {
         $obj = new Config(new PhpFile(self::TMP_PATH . '/return.php'));
+
+        $this->assertFalse($obj->isNew());
+        $this->assertFalse($obj->wasNew());
+        $this->assertFalse($obj->isChanged());
+        $this->assertFalse($obj->isDeleted());
 
         $this->assertInstanceOf(Config::class, $obj);
         $this->assertCount(3, $obj);
@@ -83,6 +93,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Running\Core\Exception
+     * @expectedExceptionMessage Wrong config storage!
      */
     public function testLoadEmptyFile()
     {
@@ -115,6 +126,26 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(42, $obj->foo);
         $this->assertEquals('bla-bla', $obj->bar);
         $this->assertEquals(new Config([1, 2, 3]), $obj->baz);
+    }
+
+    /**
+     * @expectedException \BadMethodCallException
+     */
+    public function testSet()
+    {
+        $config = new Config();
+        $config->set(42);
+        $this->fail();
+    }
+
+    /**
+     * @expectedException \BadMethodCallException
+     */
+    public function testGet()
+    {
+        $config = new Config(new PhpFile(self::TMP_PATH . '/return.php'));
+        $data = $config->get();
+        $this->fail();
     }
 
     protected function tearDown()
