@@ -10,22 +10,22 @@ namespace Running\Core;
  */
 class Config
     extends Std
-    implements ICanStoreSelf
+    implements IStorage
 {
 
     /**
-     * @var \Running\Core\ICanStoreSelf $__storage;
+     * @var \Running\Core\IStorage $__storage;
      */
     protected $__storage;
 
     /**
-     * @param \Running\Core\ICanStoreSelf|iterable|null $arg
+     * @param \Running\Core\IStorage|iterable|null $arg
      * @throws \Running\Fs\Exception
      * @property $path string
      */
-    public function __construct(/* ICanStoreSelf | iterable */$arg = null)
+    public function __construct(/* IStorage | iterable */$arg = null)
     {
-        if ( (is_object($arg) && ($arg instanceof ICanStoreSelf)) ) {
+        if ( (is_object($arg) && ($arg instanceof IStorage)) ) {
             $this->setStorage($arg)->load();
         } else {
             parent::__construct($arg);
@@ -33,19 +33,19 @@ class Config
     }
 
     /**
-     * @param \Running\Core\ICanStoreSelf $storage
+     * @param \Running\Core\IStorage $storage
      * @return $this
      */
-    public function setStorage(ICanStoreSelf $storage)
+    public function setStorage(IStorage $storage)
     {
         $this->__storage = $storage;
         return $this;
     }
 
     /**
-     * @return \Running\Core\ICanStoreSelf|null
+     * @return \Running\Core\IStorage|null
      */
-    public function getStorage()/*: ICanStoreSelf? */
+    public function getStorage()/*: ?IStorage */
     {
         return $this->__storage;
     }

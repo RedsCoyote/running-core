@@ -3,7 +3,7 @@
 namespace Running\tests\Core\Config;
 
 use Running\Core\Config;
-use Running\Core\ICanStoreSelf;
+use Running\Core\IStorage;
 use Running\Core\IHasMagicGetSet;
 use Running\Core\IHasSanitize;
 use Running\Core\IHasValidation;
@@ -31,7 +31,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(IHasSanitize::class, $obj);
         $this->assertInstanceOf(IHasValidation::class, $obj);
         $this->assertInstanceOf(Std::class, $obj);
-        $this->assertInstanceOf(ICanStoreSelf::class, $obj);
+        $this->assertInstanceOf(IStorage::class, $obj);
         $this->assertInstanceOf(Config::class, $obj);
 
         $this->assertCount(3, $obj);

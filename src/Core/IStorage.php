@@ -3,14 +3,14 @@
 namespace Running\Core;
 
 /**
- * Object can store itself
+ * Object that can save some data and load saved data
  *
- * Interface ICanStoreSelf
+ * Interface IStorage
  * @package Running\Core
  *
  * @codeCoverageIgnore
  */
-interface ICanStoreSelf
+interface IStorage
 {
 
     public function set($value);
