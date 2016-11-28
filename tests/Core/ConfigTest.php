@@ -148,6 +148,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->fail();
     }
 
+    public function testDelete()
+    {
+        $config = new Config(new PhpFile(self::TMP_PATH . '/return.php'));
+        $this->assertFalse($config->isDeleted());
+
+        $config->delete();
+        $this->assertTrue($config->isDeleted());
+
+        $config->save();
+        $this->assertFalse($config->isDeleted());
+    }
+
     protected function tearDown()
     {
         unlink(self::TMP_PATH . '/return.php');
