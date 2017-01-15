@@ -22,7 +22,14 @@ trait TSingleton
     /**
      * @codeCoverageIgnore
      */
-    protected function __clone()
+    private function __clone()
+    {
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    private function __wakeup()
     {
     }
 
