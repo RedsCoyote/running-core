@@ -3,12 +3,12 @@
 namespace Running\Core;
 
 /**
- * Class TSingleton
+ * Trait SingletonTrait
  * @package Running\Core
  *
  * @implements \Running\Core\SingletonInterface
  */
-trait TSingleton
+trait SingletonTrait
     //implements SingletonInterface
 {
 

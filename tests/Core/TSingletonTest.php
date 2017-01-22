@@ -1,17 +1,17 @@
 <?php
 
-namespace Running\tests\Core\TSingleton;
+namespace Running\tests\Core\SingletonTrait;
 
 use Running\Core\SingletonInterface;
-use Running\Core\TSingleton;
+use Running\Core\SingletonTrait;
 
 class testClass1
     implements SingletonInterface {
-    use TSingleton;
+    use SingletonTrait;
 }
 class testClass2
     implements SingletonInterface {
-    use TSingleton;
+    use SingletonTrait;
     public $x;
     public $y;
     protected function __construct($x, $y)
@@ -21,7 +21,7 @@ class testClass2
     }
 }
 
-class TSingletonTest extends \PHPUnit_Framework_TestCase
+class SingletonTraitTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testWoArguments()

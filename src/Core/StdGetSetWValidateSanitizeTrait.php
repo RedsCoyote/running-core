@@ -3,7 +3,7 @@
 namespace Running\Core;
 
 /**
- * Class TStdGetSetWValidateSanitize
+ * Class StdGetSetWValidateSanitizeTrait
  * @package Running\Core
  *
  * @implements \ArrayAccess
@@ -18,11 +18,11 @@ namespace Running\Core;
  * @implements \Running\Core\HasValidationInterface
  * @implements \Running\Core\HasSanitizingInterface
  */
-trait TStdGetSetWValidateSanitize
+trait StdGetSetWValidateSanitizeTrait
     // implements HasValidationInterface, HasSanitizingInterface
 {
 
-    use TStdGetSet;
+    use StdGetSetTrait;
 
     /**
      * Reload this method for validation and sanitizing

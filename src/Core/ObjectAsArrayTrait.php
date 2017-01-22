@@ -3,7 +3,7 @@
 namespace Running\Core;
 
 /**
- * Trait TObjectAsArray
+ * Trait ObjectAsArrayTrait
  * @package Running\Core
  *
  * @implements \ArrayAccess
@@ -14,7 +14,7 @@ namespace Running\Core;
  * @implements \JsonSerializable
  * @implements \Running\Core\ObjectAsArrayInterface
  */
-trait TObjectAsArray
+trait ObjectAsArrayTrait
  // implements ObjectAsArrayInterface
 {
 

@@ -15,7 +15,7 @@ class MultiException
 
     protected $class = \Exception::class;
 
-    use TCollection {
+    use CollectionTrait {
         append as protected collectionAppend;
         prepend as protected collectionPrepend;
     }

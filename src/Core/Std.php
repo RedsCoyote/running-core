@@ -12,7 +12,7 @@ class Std
     implements ObjectAsArrayInterface, HasMagicGetSetInterface, HasValidationInterface, HasSanitizingInterface, FillableInterface
 {
     use
-        TStdGetSetWValidateSanitize;
+        StdGetSetWValidateSanitizeTrait;
 
     /**
      * Std constructor.

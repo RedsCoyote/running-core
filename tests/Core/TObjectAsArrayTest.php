@@ -1,27 +1,27 @@
 <?php
 
-namespace Running\tests\Core\TObjectAsArray;
+namespace Running\tests\Core\ObjectAsArrayTrait;
 
 use Running\Core\ArrayableInterface;
 use Running\Core\ObjectAsArrayInterface;
-use Running\Core\TObjectAsArray;
+use Running\Core\ObjectAsArrayTrait;
 
 class testClass
     implements ObjectAsArrayInterface
 {
-    use TObjectAsArray;
+    use ObjectAsArrayTrait;
 }
 
 class testAnotherClass
     implements ObjectAsArrayInterface
 {
-    use TObjectAsArray;
+    use ObjectAsArrayTrait;
 }
 
 class testWithGetterClass
     implements ObjectAsArrayInterface
 {
-    use TObjectAsArray;
+    use ObjectAsArrayTrait;
     protected function getFoo()
     {
         return 42;
@@ -31,14 +31,14 @@ class testWithGetterClass
 class testWithSetterClass
     implements ObjectAsArrayInterface
 {
-    use TObjectAsArray;
+    use ObjectAsArrayTrait;
     protected function setFoo($val)
     {
         $this->__data['foo'] = $val*2;
     }
 }
 
-class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
+class ObjectAsArrayTraitTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testInterfaces()

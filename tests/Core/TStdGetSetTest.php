@@ -1,18 +1,18 @@
 <?php
 
-namespace Running\tests\Core\TStdGetSet;
+namespace Running\tests\Core\StdGetSetTrait;
 
 use Running\Core\HasMagicGetSetInterface;
 use Running\Core\ObjectAsArrayInterface;
-use Running\Core\TStdGetSet;
+use Running\Core\StdGetSetTrait;
 
 class testClass
     implements ObjectAsArrayInterface, HasMagicGetSetInterface
 {
-    use TStdGetSet;
+    use StdGetSetTrait;
 }
 
-class TStdGetSetTest extends \PHPUnit_Framework_TestCase
+class StdGetSetTraitTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testGetSetIssetUnset()

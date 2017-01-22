@@ -11,5 +11,5 @@ namespace Running\Core;
 class Collection
     implements CollectionInterface
 {
-    use TCollection;
+    use CollectionTrait;
 }

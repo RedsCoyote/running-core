@@ -3,17 +3,17 @@
 namespace Running\Core;
 
 /**
- * Trait TCollection
+ * Trait CollectionTrait
  * @package Running\Core
  *
  * @implements \Running\Core\ObjectAsArrayInterface
  *
  * @implements \Running\Core\CollectionInterface
  */
-trait TCollection
+trait CollectionTrait
     // implements CollectionInterface
 {
-    use TObjectAsArray;
+    use ObjectAsArrayTrait;
 
     /**
      * @param iterable $data

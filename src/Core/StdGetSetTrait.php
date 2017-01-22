@@ -3,7 +3,7 @@
 namespace Running\Core;
 
 /**
- * Class TStdGetSet
+ * Trait StdGetSetTrait
  * @package Running\Core
  *
  * @implements \ArrayAccess
@@ -16,10 +16,10 @@ namespace Running\Core;
  *
  * @implements \Running\Core\HasMagicGetSetInterface
  */
-trait TStdGetSet
+trait StdGetSetTrait
     // implements HasMagicGetSetInterface
 {
-    use TObjectAsArray;
+    use ObjectAsArrayTrait;
 
     public function __isset($key)
     {

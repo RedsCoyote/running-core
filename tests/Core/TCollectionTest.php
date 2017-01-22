@@ -1,15 +1,15 @@
 <?php
 
-namespace Running\tests\Core\TCollection;
+namespace Running\tests\Core\CollectionTrait;
 
 use Running\Core\CollectionInterface;
 use Running\Core\ObjectAsArrayInterface;
-use Running\Core\TCollection;
+use Running\Core\CollectionTrait;
 
 class testClass
     implements CollectionInterface
 {
-    use TCollection;
+    use CollectionTrait;
 }
 
 class Number
@@ -26,7 +26,7 @@ class Number
 }
 
 
-class TCollectionTest extends \PHPUnit_Framework_TestCase
+class CollectionTraitTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testConstruct()
