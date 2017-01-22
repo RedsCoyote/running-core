@@ -2,24 +2,24 @@
 
 namespace Running\tests\Core\TObjectAsArray;
 
-use Running\Core\IArrayable;
-use Running\Core\IObjectAsArray;
+use Running\Core\ArrayableInterface;
+use Running\Core\ObjectAsArrayInterface;
 use Running\Core\TObjectAsArray;
 
 class testClass
-    implements IObjectAsArray
+    implements ObjectAsArrayInterface
 {
     use TObjectAsArray;
 }
 
 class testAnotherClass
-    implements IObjectAsArray
+    implements ObjectAsArrayInterface
 {
     use TObjectAsArray;
 }
 
 class testWithGetterClass
-    implements IObjectAsArray
+    implements ObjectAsArrayInterface
 {
     use TObjectAsArray;
     protected function getFoo()
@@ -29,7 +29,7 @@ class testWithGetterClass
 }
 
 class testWithSetterClass
-    implements IObjectAsArray
+    implements ObjectAsArrayInterface
 {
     use TObjectAsArray;
     protected function setFoo($val)
@@ -45,11 +45,11 @@ class TObjectAsArrayTest extends \PHPUnit_Framework_TestCase
     {
         $obj = new testClass();
 
-        $this->assertInstanceOf(IObjectAsArray::class,  $obj);
+        $this->assertInstanceOf(ObjectAsArrayInterface::class,  $obj);
         $this->assertInstanceOf(\ArrayAccess::class,    $obj);
         $this->assertInstanceOf(\Countable::class,      $obj);
         $this->assertInstanceOf(\Iterator::class,       $obj);
-        $this->assertInstanceOf(IArrayable::class,      $obj);
+        $this->assertInstanceOf(ArrayableInterface::class,      $obj);
     }
 
     public function testGetData()

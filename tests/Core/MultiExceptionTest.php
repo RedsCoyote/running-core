@@ -3,7 +3,7 @@
 namespace Running\tests\Core\MultiException;
 
 use Running\Core\Exception;
-use Running\Core\ICollection;
+use Running\Core\CollectionInterface;
 use Running\Core\MultiException;
 
 class SomeException extends Exception
@@ -29,7 +29,7 @@ class MultiExceptionTest extends \PHPUnit_Framework_TestCase
             $errors
         );
         $this->assertInstanceOf(
-            ICollection::class,
+            CollectionInterface::class,
             $errors
         );
         $this->assertTrue($errors->isEmpty());

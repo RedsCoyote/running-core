@@ -3,11 +3,11 @@
 namespace Running\tests\Core\Config;
 
 use Running\Core\Config;
-use Running\Core\IStorage;
-use Running\Core\IHasMagicGetSet;
-use Running\Core\IHasSanitize;
-use Running\Core\IHasValidation;
-use Running\Core\IObjectAsArray;
+use Running\Core\StorageInterface;
+use Running\Core\HasMagicGetSetInterface;
+use Running\Core\HasSanitizingInterface;
+use Running\Core\HasValidationInterface;
+use Running\Core\ObjectAsArrayInterface;
 use Running\Core\Std;
 use Running\Fs\PhpFile;
 
@@ -26,12 +26,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $obj = new Config(['foo' => 42, 'bar' => 'bla-bla', 'baz' => [1, 2, 3]]);
 
-        $this->assertInstanceOf(IObjectAsArray::class, $obj);
-        $this->assertInstanceOf(IHasMagicGetSet::class, $obj);
-        $this->assertInstanceOf(IHasSanitize::class, $obj);
-        $this->assertInstanceOf(IHasValidation::class, $obj);
+        $this->assertInstanceOf(ObjectAsArrayInterface::class, $obj);
+        $this->assertInstanceOf(HasMagicGetSetInterface::class, $obj);
+        $this->assertInstanceOf(HasSanitizingInterface::class, $obj);
+        $this->assertInstanceOf(HasValidationInterface::class, $obj);
         $this->assertInstanceOf(Std::class, $obj);
-        $this->assertInstanceOf(IStorage::class, $obj);
+        $this->assertInstanceOf(StorageInterface::class, $obj);
         $this->assertInstanceOf(Config::class, $obj);
 
         $this->assertTrue($obj->isNew());

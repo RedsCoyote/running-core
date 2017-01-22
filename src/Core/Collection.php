@@ -9,7 +9,7 @@ namespace Running\Core;
  * @package Running\Core
  */
 class Collection
-    implements ICollection
+    implements CollectionInterface
 {
     use TCollection;
 }

@@ -5,12 +5,12 @@ namespace Running\Core;
 /**
  * Interface for objects which can be casted from array and be casted to array
  *
- * Interface IArrayable
+ * Interface ArrayableInterface
  * @package Running\Core
  *
  * @codeCoverageIgnore
  */
-interface IArrayable
+interface ArrayableInterface
 {
 
     public function fromArray(/* iterable */ $data);

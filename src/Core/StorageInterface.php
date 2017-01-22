@@ -5,12 +5,12 @@ namespace Running\Core;
 /**
  * Object that can save some data and load saved data
  *
- * Interface IStorage
+ * Interface StorageInterface
  * @package Running\Core
  *
  * @codeCoverageIgnore
  */
-interface IStorage
+interface StorageInterface
 {
 
     public function set($value);

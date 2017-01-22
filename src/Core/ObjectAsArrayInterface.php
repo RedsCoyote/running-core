@@ -10,8 +10,8 @@ namespace Running\Core;
  *
  * @codeCoverageIgnore
  */
-interface IObjectAsArray
-    extends \ArrayAccess, \Countable, \Iterator, IArrayable, \Serializable, \JsonSerializable
+interface ObjectAsArrayInterface
+    extends \ArrayAccess, \Countable, \Iterator, ArrayableInterface, \Serializable, \JsonSerializable
 {
 
     public function isEmpty(): bool;

@@ -9,13 +9,13 @@ namespace Running\Core;
  * @implements \ArrayAccess
  * @implements \Countable
  * @implements \Iterator
- * @implements \Running\Core\IArrayable
+ * @implements \Running\Core\ArrayableInterface
  * @implements \Serializable
  * @implements \JsonSerializable
- * @implements \Running\Core\IObjectAsArray
+ * @implements \Running\Core\ObjectAsArrayInterface
  */
 trait TObjectAsArray
- // implements IObjectAsArray
+ // implements ObjectAsArrayInterface
 {
 
     /** @var array $__data */
@@ -131,7 +131,7 @@ trait TObjectAsArray
     }
 
     /**
-     * \Running\Core\IArrayable implementation
+     * \Running\Core\ArrayableInterface implementation
      */
 
     /**
@@ -141,7 +141,7 @@ trait TObjectAsArray
     public function fromArray(/* iterable */ $data)
     {
         foreach ($data as $key => $value) {
-            if (is_null($value) || is_scalar($value) || $value instanceof \Closure || $value instanceof IObjectAsArray) {
+            if (is_null($value) || is_scalar($value) || $value instanceof \Closure || $value instanceof ObjectAsArrayInterface) {
                 $this->innerSet($key, $value);
             } else {
                 $this->innerSet($key, (new static)->fromArray($value));
@@ -174,7 +174,7 @@ trait TObjectAsArray
         $data = [];
         foreach (array_keys($this->__data) as $key) {
             $value = $this->innerGet($key);
-            if ($value instanceof IArrayable) {
+            if ($value instanceof ArrayableInterface) {
                 $data[$key] = $value->toArrayRecursive();
             } else {
                 $data[$key] = $value;

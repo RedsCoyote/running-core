@@ -5,12 +5,12 @@ namespace Running\Core;
 /**
  * Interface for classes have "magic" get- set- methods
  *
- * Interface IHasMagicGetSet
+ * Interface HasMagicGetSetInterface
  * @package Running\Core
  *
  * @codeCoverageIgnore
  */
-interface IHasMagicGetSet
+interface HasMagicGetSetInterface
 {
 
     public function __isset($key);

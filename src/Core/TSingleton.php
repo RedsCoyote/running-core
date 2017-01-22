@@ -6,10 +6,10 @@ namespace Running\Core;
  * Class TSingleton
  * @package Running\Core
  *
- * @implements \Running\Core\ISingleton
+ * @implements \Running\Core\SingletonInterface
  */
 trait TSingleton
-    //implements ISingleton
+    //implements SingletonInterface
 {
 
     /**

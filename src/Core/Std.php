@@ -9,7 +9,7 @@ namespace Running\Core;
  * @package Running\Core
  */
 class Std
-    implements IObjectAsArray, IHasMagicGetSet, IHasValidation, IHasSanitize, IFillable
+    implements ObjectAsArrayInterface, HasMagicGetSetInterface, HasValidationInterface, HasSanitizingInterface, FillableInterface
 {
     use
         TStdGetSetWValidateSanitize;
@@ -26,12 +26,12 @@ class Std
     }
 
     /**
-     * @param \Running\Core\IArrayable|iterable $obj
+     * @param \Running\Core\ArrayableInterface|iterable $obj
      * @return $this
      */
-    public function merge(/* IArrayable|iterable */ $obj)
+    public function merge(/* ArrayableInterface|iterable */ $obj)
     {
-        if ($obj instanceof IArrayable) {
+        if ($obj instanceof ArrayableInterface) {
             $obj = $obj->toArray();
         }
         foreach ($obj as $key => $value) {
@@ -41,13 +41,13 @@ class Std
     }
 
     /**
-     * @param \Running\Core\IArrayable|iterable $data
+     * @param \Running\Core\ArrayableInterface|iterable $data
      * @return $this
      * @throws \Running\Core\MultiException
      */
-    public function fill(/* IArrayable|iterable */$data)
+    public function fill(/* ArrayableInterface|iterable */$data)
     {
-        if ($data instanceof IArrayable) {
+        if ($data instanceof ArrayableInterface) {
             $data = $data->toArray();
         }
 

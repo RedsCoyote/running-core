@@ -10,22 +10,22 @@ namespace Running\Core;
  */
 class Config
     extends Std
-    implements IStorage
+    implements StorageInterface
 {
 
     /**
-     * @var \Running\Core\IStorage $__storage;
+     * @var \Running\Core\StorageInterface $__storage;
      */
     protected $__storage;
 
     /**
-     * @param \Running\Core\IStorage|iterable|null $arg
+     * @param \Running\Core\StorageInterface|iterable|null $arg
      * @throws \Running\Fs\Exception
      * @property $path string
      */
-    public function __construct(/* IStorage | iterable */$arg = null)
+    public function __construct(/* StorageInterface | iterable */$arg = null)
     {
-        if ( (is_object($arg) && ($arg instanceof IStorage)) ) {
+        if ( (is_object($arg) && ($arg instanceof StorageInterface)) ) {
             $this->setStorage($arg)->load();
         } else {
             parent::__construct($arg);
@@ -33,19 +33,19 @@ class Config
     }
 
     /**
-     * @param \Running\Core\IStorage $storage
+     * @param \Running\Core\StorageInterface $storage
      * @return $this
      */
-    public function setStorage(IStorage $storage)
+    public function setStorage(StorageInterface $storage)
     {
         $this->__storage = $storage;
         return $this;
     }
 
     /**
-     * @return \Running\Core\IStorage|null
+     * @return \Running\Core\StorageInterface|null
      */
-    public function getStorage()/*: ?IStorage */
+    public function getStorage()/*: ?StorageInterface */
     {
         return $this->__storage;
     }

@@ -2,15 +2,15 @@
 
 namespace Running\tests\Core\TSingleton;
 
-use Running\Core\ISingleton;
+use Running\Core\SingletonInterface;
 use Running\Core\TSingleton;
 
 class testClass1
-    implements ISingleton {
+    implements SingletonInterface {
     use TSingleton;
 }
 class testClass2
-    implements ISingleton {
+    implements SingletonInterface {
     use TSingleton;
     public $x;
     public $y;

@@ -5,14 +5,14 @@ namespace Running\Core;
 /**
  * Objects that can fill itself by iterable data
  *
- * Interface IFillable
+ * Interface FillableInterface
  * @package Running\Core
  */
-interface IFillable
+interface FillableInterface
 {
 
     /**
-     * @param \Running\Core\IArrayable|iterable $data
+     * @param \Running\Core\ArrayableInterface|iterable $data
      * @return $this
      * @throws \Running\Core\MultiException
      */

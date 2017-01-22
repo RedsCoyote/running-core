@@ -2,12 +2,12 @@
 
 namespace Running\tests\Core\TCollection;
 
-use Running\Core\ICollection;
-use Running\Core\IObjectAsArray;
+use Running\Core\CollectionInterface;
+use Running\Core\ObjectAsArrayInterface;
 use Running\Core\TCollection;
 
 class testClass
-    implements ICollection
+    implements CollectionInterface
 {
     use TCollection;
 }
@@ -33,7 +33,7 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $collection = new testClass([100, 200, 300, [400, 500]]);
 
-        $this->assertInstanceOf(ICollection::class, $collection);
+        $this->assertInstanceOf(CollectionInterface::class, $collection);
         $this->assertCount(4, $collection);
         $this->assertEquals(
             [100, 200, 300, new testClass([400, 500])],
@@ -322,7 +322,7 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
             '2000-01-04' => new testClass([(object)['date' => '2000-01-04', 'title' => 'Fourth']]),
         ], $grouped);
 
-        $grouped = $collection->group(function ($x) {return date('m-d', strtotime($x instanceof IObjectAsArray ? $x['date'] : $x->date));});
+        $grouped = $collection->group(function ($x) {return date('m-d', strtotime($x instanceof ObjectAsArrayInterface ? $x['date'] : $x->date));});
         $this->assertEquals([
             '01-01' => new testClass([['date' => '2000-01-01', 'title' => 'First'], ['date' => '2000-01-01', 'title' => 'Second']]),
             '01-02' => new testClass([['date' => '2000-01-02', 'title' => 'Third']]),

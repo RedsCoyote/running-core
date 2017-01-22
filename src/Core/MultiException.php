@@ -10,7 +10,7 @@ namespace Running\Core;
  */
 class MultiException
     extends \Exception
-    implements ICollection
+    implements CollectionInterface
 {
 
     protected $class = \Exception::class;

@@ -5,13 +5,13 @@ namespace Running\Core;
 /**
  * Object-as-collection interface
  *
- * Interface ICollection
+ * Interface CollectionInterface
  * @package Running\Core
  *
  * @codeCoverageIgnore
  */
-interface ICollection
-    extends IObjectAsArray
+interface CollectionInterface
+    extends ObjectAsArrayInterface
 {
 
     public function __construct(/* iterable */$data = null);

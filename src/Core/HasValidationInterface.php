@@ -5,12 +5,12 @@ namespace Running\Core;
 /**
  * Blank interface for objects have validation methods
  *
- * Interface IHasValidation
+ * Interface HasValidationInterface
  * @package Running\Core
  *
  * @codeCoverageIgnore
  */
-interface IHasValidation
+interface HasValidationInterface
 {
 
 }

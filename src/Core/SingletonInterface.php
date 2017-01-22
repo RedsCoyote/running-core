@@ -3,12 +3,12 @@
 namespace Running\Core;
 
 /**
- * Interface ISingleton
+ * Interface SingletonInterface
  * @package Running\Core
  *
  * @codeCoverageIgnore
  */
-interface ISingleton
+interface SingletonInterface
 {
 
     public static function instance(...$args);

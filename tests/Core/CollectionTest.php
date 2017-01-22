@@ -3,7 +3,7 @@
 namespace Running\tests\Core\Collection;
 
 use Running\Core\Collection;
-use Running\Core\ICollection;
+use Running\Core\CollectionInterface;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +13,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $collection = new Collection([100, 200, 300, [400, 500]]);
 
         $this->assertInstanceOf(Collection::class, $collection);
-        $this->assertInstanceOf(ICollection::class, $collection);
+        $this->assertInstanceOf(CollectionInterface::class, $collection);
         $this->assertCount(4, $collection);
         $this->assertEquals(
             [100, 200, 300, new Collection([400, 500])],

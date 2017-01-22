@@ -9,17 +9,17 @@ namespace Running\Core;
  * @implements \ArrayAccess
  * @implements \Countable
  * @implements \Iterator
- * @implements \Running\Core\IArrayable
+ * @implements \Running\Core\ArrayableInterface
  * @implements \Serializable
  * @implements \JsonSerializable
- * @implements \Running\Core\IObjectAsArray
- * @implements \Running\Core\IHasMagicGetSet
+ * @implements \Running\Core\ObjectAsArrayInterface
+ * @implements \Running\Core\HasMagicGetSetInterface
  *
- * @implements \Running\Core\IHasValidation
- * @implements \Running\Core\IHasSanitize
+ * @implements \Running\Core\HasValidationInterface
+ * @implements \Running\Core\HasSanitizingInterface
  */
 trait TStdGetSetWValidateSanitize
-    // implements IHasValidation, IHasSanitize
+    // implements HasValidationInterface, HasSanitizingInterface
 {
 
     use TStdGetSet;

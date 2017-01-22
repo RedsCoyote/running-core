@@ -6,12 +6,12 @@ namespace Running\Core;
  * Trait TCollection
  * @package Running\Core
  *
- * @implements \Running\Core\IObjectAsArray
+ * @implements \Running\Core\ObjectAsArrayInterface
  *
- * @implements \Running\Core\ICollection
+ * @implements \Running\Core\CollectionInterface
  */
 trait TCollection
-    // implements ICollection
+    // implements CollectionInterface
 {
     use TObjectAsArray;
 
@@ -68,12 +68,12 @@ trait TCollection
     }
 
     /**
-     * @param \Running\Core\IArrayable|iterable $values
+     * @param \Running\Core\ArrayableInterface|iterable $values
      * @return $this
      */
     public function merge(/* iterable */$values)
     {
-        if ($values instanceof IArrayable) {
+        if ($values instanceof ArrayableInterface) {
             $vals = $values->toArray();
         } else {
             $vals = [];
@@ -257,7 +257,7 @@ trait TCollection
         foreach ($this as $element) {
             if ($what instanceof \Closure) {
                 $ret[] = $what($element);
-            } elseif (is_array($element) || ($element instanceof IObjectAsArray)) {
+            } elseif (is_array($element) || ($element instanceof ObjectAsArrayInterface)) {
                 $ret[] = $element[$what];
             } elseif (is_object($element)) {
                 $ret[] = $element->$what;
@@ -276,7 +276,7 @@ trait TCollection
         foreach ($this as $element) {
             if ($by instanceof \Closure) {
                 $key = $by($element);
-            } elseif (is_array($element) || ($element instanceof IObjectAsArray)) {
+            } elseif (is_array($element) || ($element instanceof ObjectAsArrayInterface)) {
                 $key = $element[$by];
             } elseif (is_object($element)) {
                 $key = $element->$by;

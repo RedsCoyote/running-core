@@ -9,15 +9,15 @@ namespace Running\Core;
  * @implements \ArrayAccess
  * @implements \Countable
  * @implements \Iterator
- * @implements \Running\Core\IArrayable
+ * @implements \Running\Core\ArrayableInterface
  * @implements \Serializable
  * @implements \JsonSerializable
- * @implements \Running\Core\IObjectAsArray
+ * @implements \Running\Core\ObjectAsArrayInterface
  *
- * @implements \Running\Core\IHasMagicGetSet
+ * @implements \Running\Core\HasMagicGetSetInterface
  */
 trait TStdGetSet
-    // implements IHasMagicGetSet
+    // implements HasMagicGetSetInterface
 {
     use TObjectAsArray;
 
