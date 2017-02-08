@@ -135,16 +135,29 @@ trait ObjectAsArrayTrait
      */
 
     /**
+     * Does value need cast to this class?
+     * @param mixed $value
+     * @return bool
+     */
+    protected function needCasting($value): bool
+    {
+        if (is_null($value) || is_scalar($value) || $value instanceof \Closure || $value instanceof ObjectAsArrayInterface) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * @param iterable $data
      * @return $this
      */
     public function fromArray(/* iterable */ $data)
     {
         foreach ($data as $key => $value) {
-            if (is_null($value) || is_scalar($value) || $value instanceof \Closure || $value instanceof ObjectAsArrayInterface) {
-                $this->innerSet($key, $value);
-            } else {
+            if ($this->needCasting($value)) {
                 $this->innerSet($key, (new static)->fromArray($value));
+            } else {
+                $this->innerSet($key, $value);
             }
         }
         return $this;

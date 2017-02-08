@@ -133,6 +133,22 @@ class ObjectAsArrayTraitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo=100;bar=200;300=baz;', $res);
     }
 
+    public function testNeedCasting()
+    {
+        $method = new \ReflectionMethod(testClass::class, 'needCasting');
+        $closure = $method->getClosure(new testClass());
+
+        $this->assertFalse($closure(null));
+        $this->assertFalse($closure(42));
+        $this->assertFalse($closure(3.14159));
+        $this->assertFalse($closure('foo'));
+        $this->assertFalse($closure(function () {return 0;}));
+        $this->assertFalse($closure(new testClass(['foo' => 'bar'])));
+
+        $this->assertTrue($closure([1, 2, 3]));
+        $this->assertTrue($closure(new \stdClass()));
+    }
+
     public function testFromArray()
     {
         $obj = new testClass();
