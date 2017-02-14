@@ -46,10 +46,12 @@ class ObjectAsArrayTraitTest extends \PHPUnit_Framework_TestCase
         $obj = new testClass();
 
         $this->assertInstanceOf(ObjectAsArrayInterface::class,  $obj);
-        $this->assertInstanceOf(\ArrayAccess::class,    $obj);
-        $this->assertInstanceOf(\Countable::class,      $obj);
-        $this->assertInstanceOf(\Iterator::class,       $obj);
+        $this->assertInstanceOf(\ArrayAccess::class,            $obj);
+        $this->assertInstanceOf(\Countable::class,              $obj);
+        $this->assertInstanceOf(\Iterator::class,               $obj);
         $this->assertInstanceOf(ArrayableInterface::class,      $obj);
+        $this->assertInstanceOf(\Serializable::class,           $obj);
+        $this->assertInstanceOf(\JsonSerializable::class,       $obj);
     }
 
     public function testGetData()
