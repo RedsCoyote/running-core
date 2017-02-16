@@ -13,24 +13,28 @@ class MultiException
     implements CollectionInterface
 {
 
-    protected $class = \Exception::class;
+    /*protected */const TYPE = \Exception::class;
 
     use CollectionTrait {
+        __construct as protected collectionConstruct;
         append as protected collectionAppend;
         prepend as protected collectionPrepend;
+        innerSet as protected collectionInnerSet;
     }
 
-    public function __construct($class = \Exception::class)
+    public function __construct(/* iterable */$data = null)
     {
-        if ( !is_a($class, \Throwable::class, true) ) {
-            throw new Exception('Invalid MultiException base class');
+        $type = static::TYPE;
+        if (!is_subclass_of($type, \Throwable::class)) {
+            throw new Exception('MultiException invalid base class');
         }
-        $this->class = $class;
+        $this->collectionConstruct($data);
     }
 
     public function append($value)
     {
-        if (!($value instanceof $this->class)) {
+        $type = static::TYPE;
+        if (!($value instanceof $type)) {
             throw new Exception('MultiException class mismatch');
         }
         return $this->collectionAppend($value);
@@ -38,10 +42,20 @@ class MultiException
 
     public function prepend($value)
     {
-        if (!($value instanceof $this->class)) {
+        $type = static::TYPE;
+        if (!($value instanceof $type)) {
             throw new Exception('MultiException class mismatch');
         }
         return $this->collectionPrepend($value);
+    }
+
+    public function innerSet($key, $value)
+    {
+        $type = static::TYPE;
+        if (!($value instanceof $type)) {
+            throw new Exception('MultiException class mismatch');
+        }
+        $this->collectionInnerSet($key, $value);
     }
 
 }

@@ -15,10 +15,14 @@ class MultiExceptionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Running\Core\Exception
+     * @expectedExceptionMessage  MultiException invalid base class
      */
     public function testInvalidBaseClass()
     {
-        $errors = new MultiException(\stdClass::class);
+        $errors = new class extends MultiException
+        {
+            const TYPE = \stdClass::class;
+        };
     }
 
     public function testCreate()
@@ -103,7 +107,10 @@ class MultiExceptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidClassPrepend()
     {
-        $errors = new MultiException(SomeException::class);
+        $errors = new class extends MultiException
+        {
+            const TYPE = SomeException::class;
+        };
         $errors->prepend(new Exception);
     }
 
@@ -112,8 +119,23 @@ class MultiExceptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidClassAppend()
     {
-        $errors = new MultiException(SomeException::class);
+        $errors = new class extends MultiException
+        {
+            const TYPE = SomeException::class;
+        };
         $errors->append(new Exception);
+    }
+
+    /**
+     * @expectedException \Running\Core\Exception
+     */
+    public function testInvalidInnserSet()
+    {
+        $errors = new class extends MultiException
+        {
+            const TYPE = SomeException::class;
+        };
+        $errors[] = new Exception;
     }
 
     public function testThrow()
