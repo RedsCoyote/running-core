@@ -12,5 +12,12 @@ namespace Running\Core;
  */
 class Exception
     extends \Exception
+    implements \JsonSerializable
 {
+
+    function jsonSerialize()
+    {
+        return ['code' => $this->getCode(), 'message' => $this->getMessage()];
+    }
+
 }
