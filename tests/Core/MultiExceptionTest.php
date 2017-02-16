@@ -13,18 +13,6 @@ class SomeException extends Exception
 class MultiExceptionTest extends \PHPUnit_Framework_TestCase
 {
 
-    /**
-     * @expectedException \Running\Core\Exception
-     * @expectedExceptionMessage  MultiException invalid base class
-     */
-    public function testInvalidBaseClass()
-    {
-        $errors = new class extends MultiException
-        {
-            const TYPE = \stdClass::class;
-        };
-    }
-
     public function testCreate()
     {
         $errors = new MultiException();
@@ -109,7 +97,10 @@ class MultiExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $errors = new class extends MultiException
         {
-            const TYPE = SomeException::class;
+            public static function getType()
+            {
+                return SomeException::class;
+            }
         };
         $errors->prepend(new Exception);
     }
@@ -121,7 +112,10 @@ class MultiExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $errors = new class extends MultiException
         {
-            const TYPE = SomeException::class;
+            public static function getType()
+            {
+                return SomeException::class;
+            }
         };
         $errors->append(new Exception);
     }
@@ -133,7 +127,10 @@ class MultiExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $errors = new class extends MultiException
         {
-            const TYPE = SomeException::class;
+            public static function getType()
+            {
+                return SomeException::class;
+            }
         };
         $errors[] = new Exception;
     }
