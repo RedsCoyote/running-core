@@ -90,6 +90,27 @@ class MultiExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Exception('Second'), $errors[1]);
     }
 
+    public function testAddSelf()
+    {
+        $errors = new MultiException;
+        $this->assertTrue($errors->isEmpty());
+
+        $errors->add(new Exception('First'));
+        $this->assertFalse($errors->isEmpty());
+        $this->assertEquals(1, $errors->count());
+
+        $merged = new MultiException;
+        $merged[] = new Exception('Second');
+        $merged[] = new Exception('Third');
+        $this->assertEquals(2, $merged->count());
+
+        $errors->add($merged);
+        $this->assertEquals(3, $errors->count());
+        $this->assertEquals(new Exception('First'), $errors[0]);
+        $this->assertEquals(new Exception('Second'), $errors[1]);
+        $this->assertEquals(new Exception('Third'), $errors[2]);
+    }
+
     /**
      * @expectedException \Running\Core\Exception
      */
