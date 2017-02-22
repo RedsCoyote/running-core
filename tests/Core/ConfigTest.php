@@ -3,7 +3,7 @@
 namespace Running\tests\Core\Config;
 
 use Running\Core\Config;
-use Running\Core\StorageInterface;
+use Running\Core\SingleStorageInterface;
 use Running\Core\HasMagicGetSetInterface;
 use Running\Core\HasSanitizingInterface;
 use Running\Core\HasValidationInterface;
@@ -31,13 +31,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(HasSanitizingInterface::class, $obj);
         $this->assertInstanceOf(HasValidationInterface::class, $obj);
         $this->assertInstanceOf(Std::class, $obj);
-        $this->assertInstanceOf(StorageInterface::class, $obj);
+        $this->assertInstanceOf(SingleStorageInterface::class, $obj);
         $this->assertInstanceOf(Config::class, $obj);
-
-        $this->assertTrue($obj->isNew());
-        $this->assertTrue($obj->wasNew());
-        $this->assertFalse($obj->isChanged());
-        $this->assertFalse($obj->isDeleted());
 
         $this->assertCount(3, $obj);
         $this->assertEquals(42, $obj->foo);
@@ -49,11 +44,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $obj = new Config(new PhpFile(self::TMP_PATH . '/return.php'));
 
-        $this->assertFalse($obj->isNew());
-        $this->assertFalse($obj->wasNew());
-        $this->assertFalse($obj->isChanged());
-        $this->assertFalse($obj->isDeleted());
-
         $this->assertInstanceOf(Config::class, $obj);
         $this->assertCount(3, $obj);
         $this->assertEquals(42, $obj->foo);
@@ -61,7 +51,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Config([1, 2, 3]), $obj->baz);
     }
 
-    public function testSetGetFile()
+    public function testSetGetStorage()
     {
         $obj = new Config();
 
@@ -93,7 +83,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Running\Core\Exception
-     * @expectedExceptionMessage Wrong config storage!
+     * @expectedExceptionMessage Empty config storage
      */
     public function testLoadEmptyFile()
     {
@@ -102,7 +92,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->fail();
     }
 
-    public function testLoadReload()
+    public function testLoad()
     {
         $obj = new Config();
         $file = new PhpFile(self::TMP_PATH . '/return.php');
@@ -120,7 +110,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         unset($obj->bar);
         $obj->baz = 'nothing';
 
-        $obj->reload();
+        $obj->load();
 
         $this->assertCount(3, $obj);
         $this->assertEquals(42, $obj->foo);
@@ -146,18 +136,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $config = new Config(new PhpFile(self::TMP_PATH . '/return.php'));
         $data = $config->get();
         $this->fail();
-    }
-
-    public function testDelete()
-    {
-        $config = new Config(new PhpFile(self::TMP_PATH . '/return.php'));
-        $this->assertFalse($config->isDeleted());
-
-        $config->delete();
-        $this->assertTrue($config->isDeleted());
-
-        $config->save();
-        $this->assertFalse($config->isDeleted());
     }
 
     protected function tearDown()

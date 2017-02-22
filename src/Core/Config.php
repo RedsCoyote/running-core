@@ -10,22 +10,22 @@ namespace Running\Core;
  */
 class Config
     extends Std
-    implements StorageInterface
+    implements SingleStorageInterface
 {
 
     /**
-     * @var \Running\Core\StorageInterface $__storage;
+     * @var \Running\Core\SingleStorageInterface $storage;
      */
-    protected $__storage;
+    protected $storage;
 
     /**
-     * @param \Running\Core\StorageInterface|iterable|null $arg
+     * @param \Running\Core\SingleStorageInterface|iterable|null $arg
      * @throws \Running\Fs\Exception
      * @property $path string
      */
     public function __construct(/* StorageInterface | iterable */$arg = null)
     {
-        if ( (is_object($arg) && ($arg instanceof StorageInterface)) ) {
+        if ( (is_object($arg) && ($arg instanceof SingleStorageInterface)) ) {
             $this->setStorage($arg)->load();
         } else {
             parent::__construct($arg);
@@ -33,21 +33,21 @@ class Config
     }
 
     /**
-     * @param \Running\Core\StorageInterface $storage
+     * @param \Running\Core\SingleStorageInterface $storage
      * @return $this
      */
-    public function setStorage(StorageInterface $storage)
+    public function setStorage(SingleStorageInterface $storage)
     {
-        $this->__storage = $storage;
+        $this->storage = $storage;
         return $this;
     }
 
     /**
-     * @return \Running\Core\StorageInterface|null
+     * @return \Running\Core\SingleStorageInterface|null
      */
     public function getStorage()/*: ?StorageInterface */
     {
-        return $this->__storage;
+        return $this->storage;
     }
 
     /**
@@ -58,19 +58,12 @@ class Config
      */
     public function load()
     {
-        if (empty($this->__storage)) {
-            throw new Exception('Wrong config storage!');
+        $storage = $this->getStorage();
+        if (empty($this->getStorage())) {
+            throw new Exception('Empty config storage');
         }
-        $this->__storage->load();
-        return $this->fromArray($this->__storage->get());
-    }
-
-    /**
-     * @return $this
-     */
-    public function reload()
-    {
-        return $this->load();
+        $storage->load();
+        return $this->fromArray($storage->get());
     }
 
     /**
@@ -79,17 +72,23 @@ class Config
      */
     public function save()
     {
-        if (empty($this->__storage)) {
-            throw new Exception('Wrong config storage!');
+        $storage = $this->getStorage();
+        if (empty($storage)) {
+            throw new Exception('Empty config storage');
         }
-        $this->__storage->set($this->toArray());
-        $this->__storage->save();
+        $storage->set($this->toArray());
+        $storage->save();
         return $this;
     }
 
-    public function delete()
+    public function get()
     {
-        return $this->__storage->delete();
+        throw new \BadMethodCallException();
+    }
+
+    public function set($contents)
+    {
+        throw new \BadMethodCallException();
     }
 
     protected function innerSet($key, $val)
@@ -108,41 +107,6 @@ class Config
         } else {
             return parent::innerGet($key);
         }
-    }
-
-    public function set($value)
-    {
-        throw new \BadMethodCallException();
-    }
-
-    public function get()
-    {
-        throw new \BadMethodCallException();
-    }
-
-    public function isNew(): bool
-    {
-        return $this->__storage ? $this->__storage->isNew() : true;
-    }
-
-    public function wasNew(): bool
-    {
-        return $this->__storage ? $this->__storage->wasNew() : true;
-    }
-
-    public function isChanged(): bool
-    {
-        if (!empty($this->__storage && !empty($this->__data))) {
-            return $this->__storage->get() != $this->toArray();
-        } elseif (!empty($this->__storage)) {
-            return $this->__storage->isChanged();
-        }
-        return false;
-    }
-
-    public function isDeleted(): bool
-    {
-        return $this->__storage ? $this->__storage->isDeleted() : false;
     }
 
 }
