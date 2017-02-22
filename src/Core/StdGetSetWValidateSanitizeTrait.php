@@ -41,14 +41,16 @@ trait StdGetSetWValidateSanitizeTrait
             if (method_exists($this, $validateMethod)) {
 
                 $validateResult = $this->$validateMethod($val);
+
                 if (false === $validateResult) {
                     return;
                 }
+
                 if ($validateResult instanceof \Generator) {
                     $errors = new MultiException();
                     foreach ($validateResult as $error) {
                         if ($error instanceof \Throwable) {
-                            $errors[] = $error;
+                            $errors->add($error);
                         }
                     }
                     if (!$errors->isEmpty()) {
