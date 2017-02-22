@@ -57,11 +57,7 @@ class Std
             try {
                 $this->$key = $value;
             } catch (\Throwable $e) {
-                if ($e instanceof MultiException) {
-                    $errors->merge($e);
-                } else {
-                    $errors->add($e);
-                }
+                $errors->add($e);
             }
         }
 
