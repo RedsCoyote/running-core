@@ -117,27 +117,36 @@ class StdTest extends \PHPUnit_Framework_TestCase
 
     public function testFill()
     {
-        $obj1 = new Std(['foo' => 1, 'bar' => 2]);
+        $obj = new Std(['foo' => 1, 'bar' => 2]);
 
-        $this->assertEquals(1, $obj1->foo);
-        $this->assertEquals(2, $obj1->bar);
-        $this->assertEquals(new Std(['foo' => 1, 'bar' => 2]), $obj1);
+        $this->assertSame(1, $obj->foo);
+        $this->assertSame(2, $obj->bar);
+        $this->assertEquals(new Std(['foo' => 1, 'bar' => 2]), $obj);
 
         $data = ['bar' => 22, 'baz' => 3];
-        $obj1->fill($data);
+        $obj->fill($data);
 
-        $this->assertEquals(1, $obj1->foo);
-        $this->assertEquals(22, $obj1->bar);
-        $this->assertEquals(3, $obj1->baz);
-        $this->assertEquals(new Std(['foo' => 1, 'bar' => 22, 'baz' => 3]), $obj1);
+        $this->assertSame(1, $obj->foo);
+        $this->assertSame(22, $obj->bar);
+        $this->assertSame(3, $obj->baz);
+        $this->assertEquals(new Std(['foo' => 1, 'bar' => 22, 'baz' => 3]), $obj);
+
+        $data = new Std(['baz' => 33, 'bla' => 'something']);
+        $obj->fill($data);
+
+        $this->assertSame(1, $obj->foo);
+        $this->assertSame(22, $obj->bar);
+        $this->assertSame(33, $obj->baz);
+        $this->assertSame('something', $obj->bla);
+        $this->assertEquals(new Std(['foo' => 1, 'bar' => 22, 'baz' => 33, 'bla' => 'something']), $obj);
     }
 
     public function testFillWException()
     {
         $obj1 = new testClassWExceptions(['foo' => 1, 'bar' => 'hello']);
 
-        $this->assertEquals(1, $obj1->foo);
-        $this->assertEquals('hello', $obj1->bar);
+        $this->assertSame(1, $obj1->foo);
+        $this->assertSame('hello', $obj1->bar);
         $this->assertEquals(new testClassWExceptions(['foo' => 1, 'bar' => 'hello']), $obj1);
 
         $data = ['foo' => -1, 'baz' => 200];
