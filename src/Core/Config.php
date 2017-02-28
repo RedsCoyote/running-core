@@ -2,6 +2,9 @@
 
 namespace Running\Core;
 
+use Running\Storages\SingleValueStorageAwareInterface;
+use Running\Storages\SingleValueStorageInterface;
+
 /**
  * Config class
  *
@@ -10,22 +13,20 @@ namespace Running\Core;
  */
 class Config
     extends Std
-    implements SingleStorageInterface
+    implements SingleValueStorageInterface, SingleValueStorageAwareInterface
 {
 
     /**
-     * @var \Running\Core\SingleStorageInterface $storage;
+     * @var \Running\Storages\SingleValueStorageInterface|null $storage;
      */
     protected $storage;
 
     /**
-     * @param \Running\Core\SingleStorageInterface|iterable|null $arg
-     * @throws \Running\Fs\Exception
-     * @property $path string
+     * @param \Running\Storages\SingleValueStorageInterface|iterable|null $arg
      */
-    public function __construct(/* StorageInterface | iterable */$arg = null)
+    public function __construct(/* SingleValueStorageInterface | iterable */$arg = null)
     {
-        if ( (is_object($arg) && ($arg instanceof SingleStorageInterface)) ) {
+        if ( (is_object($arg) && ($arg instanceof SingleValueStorageInterface)) ) {
             $this->setStorage($arg)->load();
         } else {
             parent::__construct($arg);
@@ -33,19 +34,19 @@ class Config
     }
 
     /**
-     * @param \Running\Core\SingleStorageInterface $storage
+     * @param \Running\Storages\SingleValueStorageInterface $storage
      * @return $this
      */
-    public function setStorage(SingleStorageInterface $storage)
+    public function setStorage(SingleValueStorageInterface $storage)
     {
         $this->storage = $storage;
         return $this;
     }
 
     /**
-     * @return \Running\Core\SingleStorageInterface|null
+     * @return \Running\Storages\SingleValueStorageInterface|null
      */
-    public function getStorage()/*: ?StorageInterface */
+    public function getStorage(): /*?*/SingleValueStorageInterface
     {
         return $this->storage;
     }
@@ -58,10 +59,10 @@ class Config
      */
     public function load()
     {
-        $storage = $this->getStorage();
-        if (empty($this->getStorage())) {
+        if (empty($this->storage)) {
             throw new Exception('Empty config storage');
         }
+        $storage = $this->getStorage();
         $storage->load();
         return $this->fromArray($storage->get());
     }
@@ -72,10 +73,10 @@ class Config
      */
     public function save()
     {
-        $storage = $this->getStorage();
-        if (empty($storage)) {
+        if (empty($this->storage)) {
             throw new Exception('Empty config storage');
         }
+        $storage = $this->getStorage();
         $storage->set($this->toArray());
         $storage->save();
         return $this;
@@ -86,7 +87,7 @@ class Config
         throw new \BadMethodCallException();
     }
 
-    public function set($contents)
+    public function set($value)
     {
         throw new \BadMethodCallException();
     }

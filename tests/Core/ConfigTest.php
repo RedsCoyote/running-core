@@ -3,13 +3,13 @@
 namespace Running\tests\Core\Config;
 
 use Running\Core\Config;
-use Running\Core\SingleStorageInterface;
 use Running\Core\HasMagicGetSetInterface;
 use Running\Core\HasSanitizingInterface;
 use Running\Core\HasValidationInterface;
 use Running\Core\ObjectAsArrayInterface;
 use Running\Core\Std;
 use Running\Fs\PhpFile;
+use Running\Storages\SingleValueStorageInterface;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +31,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(HasSanitizingInterface::class, $obj);
         $this->assertInstanceOf(HasValidationInterface::class, $obj);
         $this->assertInstanceOf(Std::class, $obj);
-        $this->assertInstanceOf(SingleStorageInterface::class, $obj);
+        $this->assertInstanceOf(SingleValueStorageInterface::class, $obj);
         $this->assertInstanceOf(Config::class, $obj);
 
         $this->assertCount(3, $obj);
@@ -55,7 +55,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $obj = new Config();
 
-        $this->assertNull($obj->getStorage());
+        // @todo: uncomment in 7.1 !
+        //$this->assertNull($obj->getStorage());
 
         $file = new PhpFile(self::TMP_PATH . '/return.php');
         $obj->setStorage($file);
@@ -68,12 +69,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $obj = new Config();
 
         $this->assertNull($obj->storage);
-        $this->assertNull($obj->getStorage());
+        // @todo: uncomment in 7.1 !
+        //$this->assertNull($obj->getStorage());
 
         $obj->storage = 'test.txt';
 
         $this->assertEquals('test.txt', $obj->storage);
-        $this->assertNull($obj->getStorage());
+        // @todo: uncomment in 7.1 !
+        //$this->assertNull($obj->getStorage());
 
         $obj->setStorage(new PhpFile('example.php'));
 
