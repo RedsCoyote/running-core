@@ -8,7 +8,7 @@ namespace Running\Core;
  * Class TypedCollection
  * @package Running\Core
  */
-class TypedCollection
+abstract class TypedCollection
     implements TypedCollectionInterface
 {
     use TypedCollectionTrait;

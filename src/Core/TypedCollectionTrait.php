@@ -12,14 +12,6 @@ trait TypedCollectionTrait
     /*implements TypedCollectionInterface*/
 {
 
-    /**
-     * @codeCoverageIgnore
-     */
-    public static function getType()
-    {
-        return null;
-    }
-
     use CollectionTrait {
         append as protected collectionAppend;
         prepend as protected collectionPrepend;
