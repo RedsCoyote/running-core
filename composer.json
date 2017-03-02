@@ -11,6 +11,10 @@
     {
       "name": "Maxim Fedorov",
       "email": "scorp7mix@gmail.com"
+    },
+    {
+      "name": "Dmitriy Makarov",
+      "email": "ru.damakarov@gmail.com"
     }
   ],
   "minimum-stability": "dev",
