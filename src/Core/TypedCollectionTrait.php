@@ -18,10 +18,29 @@ trait TypedCollectionTrait
         innerSet as protected collectionInnerSet;
     }
 
-    public function append($value)
+    protected function isValidContent($value):bool
     {
         $type = static::getType();
-        if (!empty($type) && !($value instanceof $type)) {
+        $typeChecker = 'is_' . $type;
+        switch (gettype($value)) {
+            case 'object':
+                return ($value instanceof $type);
+            case 'boolean':
+                if (!strncmp('bool', $type, 4)) {
+                    return true;
+                }
+                break;
+            default:
+                if (function_exists($typeChecker)) {
+                    return $typeChecker($value);
+                }
+        }
+        return false;
+    }
+
+    public function append($value)
+    {
+        if (!$this->isValidContent($value)) {
             throw new Exception('Typed collection class mismatch');
         }
         return $this->collectionAppend($value);
@@ -29,8 +48,7 @@ trait TypedCollectionTrait
 
     public function prepend($value)
     {
-        $type = static::getType();
-        if (!empty($type) && !($value instanceof $type)) {
+        if (!$this->isValidContent($value)) {
             throw new Exception('Typed collection class mismatch');
         }
         return $this->collectionPrepend($value);
@@ -38,11 +56,9 @@ trait TypedCollectionTrait
 
     public function innerSet($key, $value)
     {
-        $type = static::getType();
-        if (!empty($type) && !($value instanceof $type)) {
+        if (!$this->isValidContent($value)) {
             throw new Exception('Typed collection class mismatch');
         }
         $this->collectionInnerSet($key, $value);
     }
-
 }
