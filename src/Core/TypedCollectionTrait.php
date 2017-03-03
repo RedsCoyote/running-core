@@ -21,16 +21,16 @@ trait TypedCollectionTrait
     protected function isValidContent($value):bool
     {
         $type = static::getType();
-        $typeChecker = 'is_' . $type;
         switch (gettype($value)) {
             case 'object':
                 return ($value instanceof $type);
             case 'boolean':
-                if (!strncmp('bool', $type, 4)) {
+                if ('bool' === $type || 'boolean' === $type) {
                     return true;
                 }
                 break;
             default:
+                $typeChecker = 'is_' . $type;
                 if (function_exists($typeChecker)) {
                     return $typeChecker($value);
                 }
