@@ -26,7 +26,7 @@ trait TypedCollectionTrait
             case 'object':
                 return ($value instanceof $type);
             case 'boolean':
-                if (!strncmp('bool', $type, 4)) {
+                if ('bool' === $type || 'boolean' === $type) {
                     return true;
                 }
                 break;
